@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 5979827206001323810}
   - component: {fileID: 6398736420866315632}
   - component: {fileID: 7258504681923753794}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sword
   m_TagString: weapon
   m_Icon: {fileID: 0}
@@ -269,6 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a46f50def645320469fd8ba629218a5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerNumber: 0
   walkLeftOffset: -0.25
   walkRightOffset: 0.25
   isSpikeBat: 0
@@ -342,17 +343,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.942044, y: 0.8124358}
-      - {x: 0.8127309, y: 0.9427582}
-      - {x: 0.686646, y: 0.940136}
-      - {x: 0.18078545, y: 0.4317352}
-      - {x: 0.004817307, y: 0.12995555}
-      - {x: 0.001446262, y: 0.11772044}
-      - {x: -0.0012057424, y: 0.0034774244}
-      - {x: 0.12554754, y: 0.000559289}
-      - {x: 0.12597856, y: -0.00093117356}
-      - {x: 0.4363527, y: 0.18942112}
-      - {x: 0.94003856, y: 0.6853779}
+    - - {x: 0.24015173, y: 0.10273275}
+      - {x: 0.7266913, y: 0.36267033}
+      - {x: 0.65477306, y: 0.6009125}
+      - {x: 0.41711333, y: 0.6777662}
+      - {x: 0.104744576, y: 0.23535176}
   m_UseDelaunayMesh: 0
 --- !u!50 &7258504681923753794
 Rigidbody2D:

@@ -16,13 +16,14 @@ public class CreateItem : MonoBehaviour
     
     public bool showItem = false;
     public GameObject itemDisplay;
-    private SpriteRenderer ItemDisplayRenderer;
+    private SpriteRenderer _itemDisplayRenderer;
 
-    public Sprite _sprite;
+    public Sprite sprite;
     
     // Start is called before the first frame update
     void Start()
     {
+        
         if (GameObject.FindWithTag("Manager") != null)
         {
             _manager = GameObject.FindWithTag("Manager");
@@ -33,17 +34,20 @@ public class CreateItem : MonoBehaviour
         _itemManagerSc = _itemManager.GetComponent<ItemManagerSc>();
         objectToSpawn = _itemManagerSc.GetObject();
         
-        _sprite = objectToSpawn.GetComponent<SpriteRenderer>().sprite;
+        sprite = objectToSpawn.GetComponent<SpriteRenderer>().sprite;
         
-        ItemDisplayRenderer = itemDisplay.GetComponent<SpriteRenderer>();
+        _itemDisplayRenderer = itemDisplay.GetComponent<SpriteRenderer>();
+        
     }
+
+    
 
     void Update()
     {
         //temporary
         itemDisplay.SetActive(showItem);
         
-        ItemDisplayRenderer.sprite = _sprite;
+        _itemDisplayRenderer.sprite = sprite;
 
     }
 

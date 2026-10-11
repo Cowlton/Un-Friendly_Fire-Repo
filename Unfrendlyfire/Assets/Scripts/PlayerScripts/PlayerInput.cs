@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 using UnityEngine.InputSystem;
@@ -209,7 +210,6 @@ public class PlayerInput : MonoBehaviour
             Hand_Spr.sprite = ManagerSK.HandSprite;
         
             ManagerSK.Player.Add(gameObject);
-            _itemHandler.AsignUI();
         }
         
         // Initialize Rigidbody2D
@@ -238,7 +238,6 @@ public class PlayerInput : MonoBehaviour
 
         if (canMove)
         {
-            
             velocity = new Vector2(moveSpeedX, moveSpeedY);
             
             position = rigidbody2d.position;
@@ -252,11 +251,15 @@ public class PlayerInput : MonoBehaviour
     {
         if (movementInput.x >= 0.1f)
         {
+            lastVelocityX = 1;
             moveRight();
+            StopVelocityY();
         }
         else if (movementInput.x <= -0.1f)
         {
+            lastVelocityX = -1;
             moveLeft();
+            StopVelocityY();
         }
         else
         {
@@ -277,14 +280,17 @@ public class PlayerInput : MonoBehaviour
             
         if (movementInput.y >= 0.1f)
         {
+            StopVelocityX();
             moveDown();
         }
         else if (movementInput.y <= -0.1f)
         {
+            StopVelocityX();
             moveUp();
         }
         else
         {
+            
             if (moveSpeedY > 1)
             {
                 moveSpeedY -= stopspeed * Time.deltaTime;
@@ -298,12 +304,30 @@ public class PlayerInput : MonoBehaviour
                 moveSpeedY = 0;
             }
         }
+        
+    }
+
+    void StopVelocityY()
+    {
+        if (movementInput.y is <= 0.1f and >= -0.1f)
+        {
+            lastVelocityY = 0;
+        }
+    }
+
+    void StopVelocityX()
+    {
+        if (movementInput.x is <= 0.1f and >= -0.1f)
+        {
+            lastVelocityX = 0;
+        }
     }
 
     void moveRight()
     {
         // Debug.Log("Moving X");
         lastVelocityX = 1;
+        
 
         if (moveSpeedX < topspeed)
         {
@@ -315,6 +339,9 @@ public class PlayerInput : MonoBehaviour
             {
                 moveSpeedX += 20f * Time.deltaTime;
             }
+        }else if (moveSpeedX > topspeed)
+        {
+            moveSpeedX = topspeed;
         }
     }
 
@@ -332,6 +359,9 @@ public class PlayerInput : MonoBehaviour
             {
                 moveSpeedX -= 20f * Time.deltaTime;
             }
+        }else if (moveSpeedX < -topspeed)
+        {
+            moveSpeedX = -topspeed;
         }
     }
 
@@ -339,7 +369,7 @@ public class PlayerInput : MonoBehaviour
     {
         lastVelocityY = -1;
 
-        if (moveSpeedY > topspeed * -1)
+        if (moveSpeedY > -topspeed)
         {
             if (moveSpeedY >= 0.1f)
             {
@@ -349,6 +379,9 @@ public class PlayerInput : MonoBehaviour
             {
                 moveSpeedY -= 20f * Time.deltaTime;
             }
+        }else if (moveSpeedY < -topspeed)
+        {
+            moveSpeedY = -topspeed;
         }
     }
 
@@ -366,6 +399,9 @@ public class PlayerInput : MonoBehaviour
             {
                 moveSpeedY += 20f * Time.deltaTime;
             }
+        }else if (moveSpeedY > topspeed)
+        {
+            moveSpeedY = topspeed;
         }
     }
 

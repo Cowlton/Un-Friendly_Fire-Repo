@@ -195,7 +195,7 @@ MonoBehaviour:
   SprintSpeed: 5
   slowMoveSpeed: 1
   topspeed: 8
-  TopSprint: 18
+  TopSprint: 15
   slowTopSpeed: 3
   stopspeed: 10
   SwichingSpeed: 100
@@ -225,8 +225,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 462fcdf6ad3731046a495c662ace1452, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  manager: {fileID: 0}
-  _powerHoldSc: {fileID: 0}
   powers:
   - item: {fileID: 4284959686697817216, guid: 5501f0c86bfc18c468565addf218f617, type: 3}
     powerNum: 1
