@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags:
+  - weapon
+  - Rock
+  - RockMaker
+  - Manager
+  - Keycard
+  - BigRock
+  - Wall
+  - DiscMaker
+  - Disc
+  - ColorCon
+  - Explosion
+  - LandMineMaker
+  - Landmine
+  - SliderCon
+  - UICash
+  - DethSpot
+  - ItemManager
+  - EyeMaker
+  - SpikeBatMaker
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Item
+  - Water
+  - UI
+  - Keycard
+  - wall
+  - Wepon
+  - BIGROCK
+  - BrickWall
+  - Shadow
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Tree
+    uniqueID: 4032649077
+    locked: 0
+  m_RenderingLayers:
+  - Default
+  m_MigratedRenderPipelines: []
