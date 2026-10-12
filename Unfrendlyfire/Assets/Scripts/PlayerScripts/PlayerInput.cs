@@ -127,6 +127,7 @@ public class PlayerInput : MonoBehaviour
     private Transform _boundsLeft;
     
     private bool _outOfBounds;
+    private OOB_Handeler _oobScr;
   
     public void UnDie()
     {
@@ -227,6 +228,9 @@ public class PlayerInput : MonoBehaviour
         _boundsRight =  boundsScr.boundsRight;
         _boundsLeft = boundsScr.boundsLeft;
         // Initialize Rigidbody2D
+        _roundManagerScr = ManagerSK.roundManager;
+
+        _oobScr = GetComponent<OOB_Handeler>();
 
     }
 
@@ -429,8 +433,20 @@ public class PlayerInput : MonoBehaviour
         var bY = _boundsBottom.transform.position.y;
         if (x > rX || x < lX || y > tY || y < bY)
         {
-            Debug.Log("Out of bounds");
-            _outOfBounds = true;
+            if (alive && _outOfBounds == false)
+            {
+                _oobScr.OutOfBounds();
+                _outOfBounds = true;
+            }
+        }
+        else
+        {
+            if (_outOfBounds)
+            {
+                _oobScr.InBounds();
+                _outOfBounds = false;
+            }
+            
         }
         
         transform.rotation = Quaternion.Euler(0f, 0f, 0f);

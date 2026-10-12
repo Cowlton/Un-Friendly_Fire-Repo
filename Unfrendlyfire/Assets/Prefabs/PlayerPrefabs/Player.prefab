@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6552696135207443724}
   - component: {fileID: 1818714023499031565}
   - component: {fileID: 9139581845411278354}
+  - component: {fileID: 7468433939105061718}
   - component: {fileID: 5810394728169201330}
   - component: {fileID: -1836221272238962527}
   - component: {fileID: 4820044113026922024}
@@ -240,6 +241,22 @@ MonoBehaviour:
   powerNum: 0
   disc: {fileID: 4103828969862996169, guid: 705da0cefffc01b4999881b3640c6961, type: 3}
   landMine: {fileID: 4388433660818362553, guid: 0a67e05aede71cf4eaa02c278180b389, type: 3}
+--- !u!114 &7468433939105061718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851388684138362971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8411df533fe4e6d40b520ae71393ae74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  OOB_prefab: {fileID: 215971223872958104, guid: abd2faa26af7e6843848333221f2e310, type: 3}
+  oob_time: 5
+  panicTime: 4
+  playerInputScr: {fileID: 1818714023499031565}
 --- !u!212 &5810394728169201330
 SpriteRenderer:
   serializedVersion: 2
@@ -364,7 +381,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 1152
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
