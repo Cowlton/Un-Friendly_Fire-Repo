@@ -102,6 +102,8 @@ public class Maneger : MonoBehaviour
     public GameObject UIcash;
 
     public List<String> tagsToDistroy = new List<string>(){"RockMaker","DiscMaker","LandMineMaker","Landmine","Keycard"};
+
+    public SpotlightScr spotlightSc;
     
     // Start is called before the first frame update
     void Start()
@@ -264,14 +266,12 @@ public class Maneger : MonoBehaviour
         UISpriteChanger scr = playerDesplayScr[playerInt];
         playerWiner =  playerInt;
         scr.Won();
+        spotlightSc.SetWinnerSpotlight(Player[playerInt].transform);
         FadeBacroundUiIn();
-
     }
-    
 
     public void ClearScores()
     {
-        
         var sc = pointManager.GetComponent<PointSc>();
         for (int i = 0; i < PlayerScores.Count; i++)
         {
@@ -287,7 +287,6 @@ public class Maneger : MonoBehaviour
             PlayerScores[i] = 0;
            
         }
-        HidePlayers();
     }
  
     public void Continue()
@@ -311,7 +310,6 @@ public class Maneger : MonoBehaviour
 
     public void FadeBacroundUiIn()
     {
-        RoundsUI.SetActive(true);
         var Image = BacroundUI.GetComponent<Image>();
         StartCoroutine(Fade(0f, 1f, Image));
     }
@@ -338,8 +336,7 @@ public class Maneger : MonoBehaviour
         yield return null;
         if (startAlpha == 0f)
         {
-            Clear();
-            ClearScores();
+            
         }
         else
         {
@@ -350,7 +347,7 @@ public class Maneger : MonoBehaviour
         }
     }
 
-    void HidePlayers()
+    public void HidePlayers()
     {
         for (int i = 0; i < Player.Count; i++)
         {
