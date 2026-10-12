@@ -15,7 +15,6 @@ using Color = UnityEngine.Color;
 public class Maneger : MonoBehaviour
 {
 
-    private bool GameOver = false;
     public List<TextMeshProUGUI> PlayerPoints = new List<TextMeshProUGUI>();
     
     public CamraSc CamraSc;
@@ -33,33 +32,21 @@ public class Maneger : MonoBehaviour
     #endregion UI powers
     
     public GameObject KeyCard;
-    public GameObject RoundsUI;
-    public GameObject BacroundUI;
-    
+ 
     public List<float> PlayerScores = new List<float>();
     
     #endregion player UI
     
 
-    private int playerWiner;
+    private int _playerWiner;
     
     public int RanColor;
     public List<int> RanNums;
-
-    #region RoundRules
     
     public bool roundEnded = false;
-    [NonSerialized]public bool ShowContinue = false;
-    private bool CanCheckContinue = false;
-    public float continueTime = 20;
-        
-    public GameObject continueUI;
     
-    #endregion RoundRules
-   
     private float _waitTime;
     
-    public float maxPoints = 10;
     public float AmountOfRocks = 5;
     
     public float fadeDuration = 1f;
@@ -79,9 +66,7 @@ public class Maneger : MonoBehaviour
     public Transform[] BottomRightSpawnPoints;
 
     public List<Transform> ROCKS = new List<Transform>();
-   
     
-
     public Transform Xmax;
     public Transform Xmin;
 
@@ -97,19 +82,14 @@ public class Maneger : MonoBehaviour
 
     public List<GameObject> Player;
     public List<PlayerInput> PlayerSc;
-
-    public GameObject pointManager;
-    public GameObject UIcash;
-
+    
     public List<String> tagsToDistroy = new List<string>(){"RockMaker","DiscMaker","LandMineMaker","Landmine","Keycard"};
-
-    public SpotlightScr spotlightSc;
+    
+    public RoundManagerScr roundManager;
     
     // Start is called before the first frame update
     void Start()
     {
-        RoundsUI.SetActive(false);
-
         for (int i = 0; i < PlayerUIs.Count; i++)
         {
             GameObject curUI = PlayerUIs[i];
@@ -122,36 +102,10 @@ public class Maneger : MonoBehaviour
         }
         
         MakeNewRocks();
+        
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        UIcash = GameObject.FindGameObjectWithTag("UICash");
-        if (roundEnded && UIcash != null || !CanCheckContinue)
-        {
-            ShowContinue = false;
-            continueUI.SetActive(false);
-            continueTime = 20;
-        }
-        else
-        {
-            ShowContinue = true;
-        }
-
-        if (ShowContinue)
-        {
-            if (continueTime > 0)
-            {
-                continueTime -= 0.5f;
-            }
-            else
-            {
-                continueUI.SetActive(true);
-            }
-        }
-        
-    }
 
     public void PlayerDied(int player)
     {
@@ -208,9 +162,10 @@ public class Maneger : MonoBehaviour
     {
         for (int i = 0; i < PlayerScores.Count; i++)
         {
-            if (PlayerScores[i] >= maxPoints)
+            if (PlayerScores[i] >= roundManager.maxPoints)
             {
-                RoundEnd(i);
+                roundManager.RoundEnd(i);
+                roundEnded = true;
             }
         }
     }
@@ -251,102 +206,22 @@ public class Maneger : MonoBehaviour
         return col;
 
     }
-
-	public void RoundEnd(int playerInt)
-    {
-        roundEnded = true;
-        for (int i = 0; i < Player.Count; i++)
-        {
-            PlayerSc[i].slowMo = true;
-        }
-        
-        Debug.Log("Round End");
-        Debug.Log($"Player {playerInt+1} Won");
-        
-        UISpriteChanger scr = playerDesplayScr[playerInt];
-        playerWiner =  playerInt;
-        scr.Won();
-        spotlightSc.SetWinnerSpotlight(Player[playerInt].transform);
-        FadeBacroundUiIn();
-    }
-
+    
     public void ClearScores()
     {
-        var sc = pointManager.GetComponent<PointSc>();
-        for (int i = 0; i < PlayerScores.Count; i++)
-        {
-            if (i == playerWiner)
-            {
-                sc.AddCash(i, PlayerScores[i],true);
-                CanCheckContinue = true;
-            }
-            else
-            {
-                sc.AddCash(i, PlayerScores[i],false);
-            }
-            PlayerScores[i] = 0;
-           
-        }
+        roundManager.ClearScores(_playerWiner);
     }
  
     public void Continue()
     {
-        if (GameOver == true)
-        { 
-            var sc = pointManager.GetComponent<PointSc>();
-            sc.Reset();
-        }
-        FadeBacroundUiOut();
-        for (int i = 0; i < Player.Count; i++)
-        {
-            PlayerSc[i].slowMo = false;
-        }
+        roundManager.Continue();
     }
     
     public void PlayerWon()
     {
-        GameOver = true;
+        roundManager.GameOver = true;
     }
-
-    public void FadeBacroundUiIn()
-    {
-        var Image = BacroundUI.GetComponent<Image>();
-        StartCoroutine(Fade(0f, 1f, Image));
-    }
-
-    public void FadeBacroundUiOut()
-    {
-        var Image = BacroundUI.GetComponent<Image>();
-        StartCoroutine(Fade(1f, 0f,  Image));
-        RoundsUI.SetActive(false);
-    }
-
-    private IEnumerator Fade(float startAlpha, float endAlpha, Image image)
-    {
-        float elapsedTime = Time.deltaTime;
-        float start = Time.deltaTime;
-        while (elapsedTime < fadeDuration + start)
-        {
-            elapsedTime += Time.deltaTime;
-            float alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / fadeDuration);
-            image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);
-            yield return null;
-        }
-        image.color = new Color(image.color.b, image.color.b, image.color.b, endAlpha);
-        yield return null;
-        if (startAlpha == 0f)
-        {
-            
-        }
-        else
-        {
-            roundEnded = false;
-            CanCheckContinue = false;
-            SpawnPlayers();
-            
-        }
-    }
-
+   
     public void HidePlayers()
     {
         for (int i = 0; i < Player.Count; i++)
@@ -355,7 +230,7 @@ public class Maneger : MonoBehaviour
         }
     }
 
-    async Task SpawnPlayers()
+    public async Task SpawnPlayers()
     {
         for (int i = 0; i < Player.Count; i++)
         {
@@ -387,11 +262,9 @@ public class Maneger : MonoBehaviour
         {
             Destroy(obj);
         }
-
-        ClearPlayerInvintory();
     }
 
-    void ClearPlayerInvintory()
+    public void ClearPlayerInventory()
     {
         for (int i = 0; i < Player.Count; i++)
         {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -36,12 +37,7 @@ public class PointSc : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+  
     public void Reset()
     {
         foreach (GameObject obj in playerSliders)
@@ -70,22 +66,33 @@ public class PointSc : MonoBehaviour
         }
     }
 
-    public async Task bonus(int player)
+    public void bonus(int player)
     {
-        for (int i = 0; i < bonusAmount; i++)
+        try
         {
+            for (int i = 0; i < bonusAmount; i++)
+            {
             
-            float angle = i * Mathf.PI * 2f / bonusAmount;   // Even angle spacing
-            float x = Mathf.Cos(angle) * radius;
-            float y = Mathf.Sin(angle) * radius;
-            Vector3 pos = new Vector3(x, y, 0f) + PlayerCash[player].transform.position;
+                float angle = i * Mathf.PI * 2f / bonusAmount;   // Even angle spacing
+                float x = Mathf.Cos(angle) * radius;
+                float y = Mathf.Sin(angle) * radius;
+                Vector3 pos = new Vector3(x, y, 0f) + PlayerCash[player].transform.position;
             
-            var newCash = Instantiate(Cash,pos ,Quaternion.identity);
-            newCash.transform.SetParent(canvas.transform, true);
-            var CashSc = newCash.GetComponent<CashMove>();
-            CashSc.Delay = 0.5f;
-            CashSc.CashBag = moneyBagObjs[player];
+                var newCash = Instantiate(Cash,pos ,Quaternion.identity);
+                newCash.transform.SetParent(canvas.transform, true);
+                var CashSc = newCash.GetComponent<CashMove>();
+                CashSc.Delay = 0.5f;
+                CashSc.CashBag = moneyBagObjs[player];
             
+            }
+
+            return;
+        }
+        catch (Exception exception)
+        {
+            Debug.Log("Hustin We Have a problem");
+            Task.FromException(exception);
+            return;
         }
     }
 

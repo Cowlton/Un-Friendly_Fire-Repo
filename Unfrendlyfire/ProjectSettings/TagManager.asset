@@ -23,6 +23,7 @@ TagManager:
   - ItemManager
   - EyeMaker
   - SpikeBatMaker
+  - BoundsManager
   layers:
   - Default
   - TransparentFX

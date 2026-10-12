@@ -7,6 +7,7 @@ public class SpotlightScr : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
     [SerializeField]private Maneger _manegerSc;
+    [SerializeField]private RoundManagerScr _roundManagerScr;
     
     [SerializeField] private Material spotlightMaterial;
     [SerializeField] private Camera gameCamera;
@@ -84,7 +85,7 @@ public class SpotlightScr : MonoBehaviour
         // Keep the circle open
         spotlightMaterial.SetFloat(RadiusID, maxRadius);
         yield return new WaitForSeconds(holdDuration/2);
-        _manegerSc.RoundsUI.SetActive(true);
+        _roundManagerScr.roundsUI.SetActive(true);
         yield return new WaitForSeconds(holdDuration/2);
 
         // Shrink the circle
@@ -107,6 +108,7 @@ public class SpotlightScr : MonoBehaviour
         _manegerSc.HidePlayers();
         _manegerSc.Clear();
         _manegerSc.ClearScores();
+        _manegerSc.ClearPlayerInventory();
         hasWinner = false;
         spotlightCoroutine = null;
     }

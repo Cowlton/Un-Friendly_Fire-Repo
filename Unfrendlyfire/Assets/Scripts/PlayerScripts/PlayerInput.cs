@@ -25,6 +25,7 @@ public class PlayerInput : MonoBehaviour
 
     //Scripts
     private Maneger ManagerSK;
+    private RoundManagerScr _roundManagerScr;
     private ItemHandler _itemHandler;
     [NonSerialized] public FolowPlayer SowrdSc;
     private Hand Hand_sc;
@@ -120,6 +121,12 @@ public class PlayerInput : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     // public
 
+    private Transform _boundsTop;
+    private Transform _boundsBottom;
+    private Transform _boundsRight;
+    private Transform _boundsLeft;
+    
+    private bool _outOfBounds;
   
     public void UnDie()
     {
@@ -192,7 +199,7 @@ public class PlayerInput : MonoBehaviour
             
             ManagerSK.PlayerSc.Add(GetComponent<PlayerInput>());
             
-            _itemHandler = gameObject.AddComponent<ItemHandler>();
+            _itemHandler = gameObject.GetComponent<ItemHandler>();
             
             SowrdSc.playerNumber = PlayerNUM;
             coler_index = ManagerSK.PICK();
@@ -212,6 +219,13 @@ public class PlayerInput : MonoBehaviour
             ManagerSK.Player.Add(gameObject);
         }
         
+        var bounds = GameObject.FindGameObjectWithTag("BoundsManager");
+        var boundsScr = bounds.GetComponent<BoundsScr>();
+        
+        _boundsTop = boundsScr.boundsTop;
+        _boundsBottom = boundsScr.boundsBottom;
+        _boundsRight =  boundsScr.boundsRight;
+        _boundsLeft = boundsScr.boundsLeft;
         // Initialize Rigidbody2D
 
     }
@@ -407,6 +421,17 @@ public class PlayerInput : MonoBehaviour
 
     void Update()
     {
+        var x = transform.position.x;
+        var rX = _boundsRight.transform.position.x;
+        var lX = _boundsLeft.transform.position.x;
+        var y = transform.position.y;
+        var tY = _boundsTop.transform.position.y;
+        var bY = _boundsBottom.transform.position.y;
+        if (x > rX || x < lX || y > tY || y < bY)
+        {
+            Debug.Log("Out of bounds");
+            _outOfBounds = true;
+        }
         
         transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         if (cooldown >= 0)
@@ -617,7 +642,7 @@ public class PlayerInput : MonoBehaviour
 
     public void Continue()
     {
-        if (ManagerSK.ShowContinue)
+        if (_roundManagerScr.ShowContinue)
         {
             SowrdSc.ResetSpikes();
             ManagerSK.Continue();
