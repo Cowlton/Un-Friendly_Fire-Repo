@@ -129,7 +129,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Cercle 2
     originalName: 
-    pivot: {x: 0.5, y: -0.07692308}
+    pivot: {x: 0.5010132, y: -0.019607844}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -137,8 +137,8 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 100
-      height: 91
+      width: 987
+      height: 255
     spriteID: 4b5434b49c31390499b774d49a10dffe
     spriteBone: []
     spriteOutline: []
@@ -167,10 +167,10 @@ ScriptedImporter:
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 0
-        y: 7
-        width: 100
-        height: 91
+        x: 12
+        y: 5
+        width: 987
+        height: 255
       spriteId: 4b5434b49c31390499b774d49a10dffe
     linkedCells: []
     tileCells: []
@@ -181,5 +181,5 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 100, y: 100}
-  previousTextureSize: {x: 128, y: 128}
+  canvasSize: {x: 1013, y: 284}
+  previousTextureSize: {x: 1024, y: 512}

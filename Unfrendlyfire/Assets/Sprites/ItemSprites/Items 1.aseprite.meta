@@ -391,7 +391,7 @@ ScriptedImporter:
       x: 112
       y: 124
       width: 78
-      height: 37
+      height: 41
     spriteID: 23baa00c9fb57f046b7d3a63d80a7ba9
     spriteBone: []
     spriteOutline: []
@@ -491,10 +491,10 @@ ScriptedImporter:
       frameIndex: 8
       additiveSortOrder: 0
       cellRect:
-        x: 9
-        y: 28
-        width: 78
-        height: 37
+        x: 13
+        y: 24
+        width: 74
+        height: 41
       spriteId: fa1a7de48b2d5cb4ab8e69134669f0c2
     linkedCells: []
     tileCells: []

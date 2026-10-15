@@ -16,7 +16,7 @@ public class CreateItem : MonoBehaviour
     
     public bool showItem = false;
     public GameObject itemDisplay;
-    private SpriteRenderer _itemDisplayRenderer;
+    public SpriteRenderer _itemDisplayRenderer;
 
     public Sprite sprite;
     
@@ -35,8 +35,6 @@ public class CreateItem : MonoBehaviour
         objectToSpawn = _itemManagerSc.GetObject();
         
         sprite = objectToSpawn.GetComponent<SpriteRenderer>().sprite;
-        
-        _itemDisplayRenderer = itemDisplay.GetComponent<SpriteRenderer>();
         
     }
 

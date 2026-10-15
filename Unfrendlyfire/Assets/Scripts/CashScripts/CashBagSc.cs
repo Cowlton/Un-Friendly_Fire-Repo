@@ -20,7 +20,7 @@ public class CashBagSc : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //slider =  sliderObj.GetComponent<Slider>();
+        //text =  sliderObj.GetComponent<Slider>();
         Rect = gameObject.GetComponent<RectTransform>();
         Size =  Rect.sizeDelta;
     }

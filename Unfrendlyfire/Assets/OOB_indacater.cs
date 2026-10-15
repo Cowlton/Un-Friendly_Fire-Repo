@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class OOB_indacater : MonoBehaviour
@@ -21,6 +23,10 @@ public class OOB_indacater : MonoBehaviour
 
     public Animator anim;
     
+    public List<Sprite> baseSprites;
+    public List<Sprite> arrowSprites;
+
+    [NonSerialized]public int ColorInt;
 
     [Header("Follow Settings")]
     public float smoothSpeed = 10f;
@@ -35,7 +41,11 @@ public class OOB_indacater : MonoBehaviour
         _leftBound = sc.boundsLeft;
         _rightBound = sc.boundsRight;
         arrowScr.player = player;
+        
         Hide(true);
+        baseRenderer.sprite = baseSprites[ColorInt];
+        arrowRenderer.sprite = arrowSprites[ColorInt];
+        
     }
 
     public void Hide(bool hide)

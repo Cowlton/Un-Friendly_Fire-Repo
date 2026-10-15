@@ -17,6 +17,14 @@ public class NumEffect : MonoBehaviour
         await Task.Delay(500);
         text.fontSize -= SizeDiff;
     }
+    public async Task Add(int delay)
+    {
+        _value += 1;
+        text.text = _value.ToString();
+        text.fontSize += SizeDiff;
+        await Task.Delay(delay);
+        text.fontSize -= SizeDiff;
+    }
 
     public async Task Remove()
     {
@@ -25,5 +33,19 @@ public class NumEffect : MonoBehaviour
         text.fontSize += SizeDiff;
         await Task.Delay(100);
         text.fontSize -= SizeDiff;
+    }
+    public async Task Remove(int delay)
+    {
+        _value -= 1;
+        text.text = _value.ToString();
+        text.fontSize += SizeDiff;
+        await Task.Delay(delay);
+        text.fontSize -= SizeDiff;
+    }
+
+    public void Reset()
+    {
+        _value = 0;
+        text.text = "";
     }
 }

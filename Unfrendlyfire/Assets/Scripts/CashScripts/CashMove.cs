@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class CashMove : MonoBehaviour
 {
-    public GameObject CashBag;
+    public GameObject target;
     private CashBagSc CashBagSc;
     public float speed;
     public float minSpeed = 1;
@@ -21,10 +21,11 @@ public class CashMove : MonoBehaviour
     public float distroyDistance;
     public float Delay;
 
+    [NonSerialized] public bool ToTracker; 
+
     void Start()
     {
         Rect = gameObject.GetComponent<RectTransform>();
-        CashBagSc =  CashBag.GetComponent<CashBagSc>();
         Rand = new Vector2(Random.Range(-Variation, Variation), Random.Range(-Variation, Variation));
         scaleTo = Rect.sizeDelta.x;
         Rect.sizeDelta = new Vector2(0, 0);
@@ -44,18 +45,29 @@ public class CashMove : MonoBehaviour
         {
             Delay -= 1 * Time.deltaTime;
         }
-        
-        if (CashBag != null && Delay < 0)
+
+        if (target != null && Delay < 0)
         {
             speed += 1f * Time.deltaTime;
-            var diff = Rand * (Vector3.Distance(transform.position,CashBag.transform.position)/10);
-            var movePoint = new Vector3(CashBag.transform.position.x + diff.x, CashBag.transform.position.y + diff.y, CashBag.transform.position.z);
+            var diff = Rand * (Vector3.Distance(transform.position,target.transform.position)/10);
+            var movePoint = new Vector3(target.transform.position.x + diff.x, target.transform.position.y + diff.y, target.transform.position.z);
             // Move the follower object towards the calculated end position
             transform.position = Vector3.Lerp(transform.position, movePoint, speed * Time.deltaTime);
-            if(Vector3.Distance(transform.position,CashBag.transform.position) < distroyDistance)
+            if(Vector3.Distance(transform.position,target.transform.position) < distroyDistance)
             {
                 Destroy(gameObject);
-                CashBagSc.AddCash();
+
+                if (ToTracker)
+                {
+                    var trackerScr =  target.GetComponent<NumEffect>();
+                    trackerScr.Add();
+                }
+                else
+                {
+                    CashBagSc = target.GetComponent<CashBagSc>();
+                    CashBagSc.AddCash();
+                }
+                
             }
         }
     }

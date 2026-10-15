@@ -15,7 +15,7 @@ using Color = UnityEngine.Color;
 public class Maneger : MonoBehaviour
 {
 
-    public List<TextMeshProUGUI> PlayerPoints = new List<TextMeshProUGUI>();
+    public CashTrackerSc cashTracker;
     
     public CamraSc CamraSc;
     
@@ -33,7 +33,7 @@ public class Maneger : MonoBehaviour
     
     public GameObject KeyCard;
  
-    public List<float> PlayerScores = new List<float>();
+    public List<int> PlayerScores = new();
     
     #endregion player UI
     
@@ -96,10 +96,8 @@ public class Maneger : MonoBehaviour
             curUI.SetActive(false);
         }
 
-        for (int i = 0; i < PlayerPoints.Count; i++)
-        {
-            PlayerPoints[i].text = PlayerScores[i].ToString();
-        }
+        cashTracker.Reset();
+        
         
         MakeNewRocks();
         
@@ -146,30 +144,33 @@ public class Maneger : MonoBehaviour
     {
         if(!roundEnded)
         {
-        if (playerDesplayScr.Length > player){
+            if (playerDesplayScr.Length > player)
+            {
+                UISpriteChanger scr = playerDesplayScr[player];
+                scr.GotCash();
+            }
             
-            UISpriteChanger scr = playerDesplayScr[player];
-            scr.GotCash();
-        }
-        PlayerScores[player] += 1;
-        var pointSc = PlayerPoints[player].GetComponent<NumEffect>();
-        pointSc.Add();
-        winCheck();
+            PlayerScores[player] += 1;
+
+            var pTransform = Player[player].transform;
+            cashTracker.AddCash(player,pTransform);
+            WinCheck();
         }
     }
 
-    private void winCheck()
+    private void WinCheck()
     {
         for (int i = 0; i < PlayerScores.Count; i++)
         {
             if (PlayerScores[i] >= roundManager.maxPoints)
             {
+                _playerWiner = i;
                 roundManager.RoundEnd(i);
                 roundEnded = true;
             }
         }
     }
-
+    
     void MakeNewRocks()
     {
         for (int i = 0; i < AmountOfRocks; i++) // Loop for rows
@@ -210,6 +211,13 @@ public class Maneger : MonoBehaviour
     public void ClearScores()
     {
         roundManager.ClearScores(_playerWiner);
+        if (roundManager.GameOver)
+        {
+            for(int i = 0; i < PlayerScores.Count; i++)
+            {
+                PlayerScores[i] = 0;
+            }
+        }
     }
  
     public void Continue()
@@ -219,6 +227,7 @@ public class Maneger : MonoBehaviour
     
     public void PlayerWon()
     {
+        Debug.Log("Game finished");
         roundManager.GameOver = true;
     }
    

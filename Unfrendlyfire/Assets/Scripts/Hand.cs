@@ -38,22 +38,12 @@ public class Hand : MonoBehaviour
                 transform.localScale = new Vector3(-1, 1, 1);
                 
             }
-            if (PlayerSk.movementInput.y >= 0.1f)
-            {
-                
-            }
-            if (PlayerSk.movementInput.y <= -0.1f)
-            {
-                
-            }
-            
+           
             // Calculate the position at the end of the leader object (using its position + offset)
             Vector3 endPosition = leaderObject.position + leaderObject.transform.rotation * offset;
 
             // Move the follower object towards the calculated end position
             transform.position = Vector3.Lerp(transform.position, endPosition, followSpeed * Time.deltaTime);
-            
-           
            
         }
     }

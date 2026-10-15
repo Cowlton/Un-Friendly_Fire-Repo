@@ -60,9 +60,7 @@ public class RoundManagerScr : MonoBehaviour
                 continueUI.SetActive(true);
             }
         }
-        
     }
-    
     
     public void RoundEnd(int playerInt)
     {
@@ -115,7 +113,6 @@ public class RoundManagerScr : MonoBehaviour
             _canCheckContinue = false;
             maneger.roundEnded = false;
             maneger.SpawnPlayers();
-            
         }
     }
     
@@ -124,6 +121,7 @@ public class RoundManagerScr : MonoBehaviour
         if (GameOver)
         { 
             pointManagerScr.Reset();
+            GameOver = false;
         }
         FadeBacroundUiOut();
         var players = maneger.Player;

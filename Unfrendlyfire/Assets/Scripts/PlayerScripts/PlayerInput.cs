@@ -27,7 +27,7 @@ public class PlayerInput : MonoBehaviour
     private Maneger ManagerSK;
     private RoundManagerScr _roundManagerScr;
     private ItemHandler _itemHandler;
-    [NonSerialized] public FolowPlayer SowrdSc;
+    [NonSerialized] public FollowPlayer SwordSc;
     private Hand Hand_sc;
     [NonSerialized] public ItemsToHold_sc PowerHoldSc;
     private Disc_Script Disc_sk;
@@ -134,7 +134,7 @@ public class PlayerInput : MonoBehaviour
         alive = true;
         
         spriteRenderer.sprite = BaiseColer;
-        SowrdSc.Actavate();
+        SwordSc.Activate();
         Hand_sc.gameObject.SetActive(true);
         _animator.SetBool("IsDead",false);
     }
@@ -160,7 +160,7 @@ public class PlayerInput : MonoBehaviour
   
     public void MakeSpikeBat()
     {
-        SowrdSc.BecomeSpikeBat();
+        SwordSc.BecomeSpikeBat();
     }
 
     void Start()
@@ -187,10 +187,10 @@ public class PlayerInput : MonoBehaviour
         rigidbody2d = GetComponent<Rigidbody2D>();
 
         
-        SowrdSc = newSowrd.GetComponent<FolowPlayer>();
+        SwordSc = newSowrd.GetComponent<FollowPlayer>();
         Hand_sc = newHand.GetComponent<Hand>();
         
-        SowrdSc.leaderObject = transform;
+        SwordSc.leaderObject = transform;
         Hand_sc.leaderObject = transform;
         if (GameObject.FindGameObjectWithTag("Manager") != null)
         {
@@ -202,9 +202,9 @@ public class PlayerInput : MonoBehaviour
             
             _itemHandler = gameObject.GetComponent<ItemHandler>();
             
-            SowrdSc.playerNumber = PlayerNUM;
+            SwordSc.playerNumber = PlayerNUM;
             coler_index = ManagerSK.PICK();
-            SowrdSc.colorIndex = coler_index;
+            SwordSc.colorIndex = coler_index;
         
             PowerHoldSc = newHand.GetComponent<ItemsToHold_sc>();
 
@@ -231,6 +231,7 @@ public class PlayerInput : MonoBehaviour
         _roundManagerScr = ManagerSK.roundManager;
 
         _oobScr = GetComponent<OOB_Handeler>();
+        _oobScr.ColorInt = coler_index;
 
     }
 
@@ -242,14 +243,11 @@ public class PlayerInput : MonoBehaviour
     }
     public void Attack()
     {
-        
-        if (alive == true && cooldown <= 0)
+        if (alive && cooldown <= 0)
         {
-            SowrdSc.Attack();
-            cooldown = 20;
+            SwordSc.Attack();
+            cooldown = 0.1;
         }
-        
-        
     }
     void FixedUpdate()
     {
@@ -433,7 +431,7 @@ public class PlayerInput : MonoBehaviour
         var bY = _boundsBottom.transform.position.y;
         if (x > rX || x < lX || y > tY || y < bY)
         {
-            if (alive && _outOfBounds == false)
+            if (canMove && _outOfBounds == false)
             {
                 _oobScr.OutOfBounds();
                 _outOfBounds = true;
@@ -452,7 +450,7 @@ public class PlayerInput : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         if (cooldown >= 0)
         {
-            cooldown -= 1;
+            cooldown -= 1*Time.deltaTime;
         }
 
         if (isSprinting)
@@ -570,16 +568,18 @@ public class PlayerInput : MonoBehaviour
         moveSpeedX = 0;
     }
     
-    public void Deth()
+    public void Death()
     {
         
         Instantiate(DethSound, transform.position, Quaternion.identity);
         spriteRenderer.sprite = GohstSP;
         _animator.SetBool("IsDead",true);
-        SowrdSc.Deactavate();
+        SwordSc.Deactivate();
         Hand_sc.gameObject.SetActive(false);
+        
+        _itemHandler.hasItem = false;
 
-        SowrdSc.ResetSpikes();
+        SwordSc.ResetSpikes();
         
         int player = (int)PlayerNUM - 1;
         ManagerSK.PlayerDied(player);
@@ -612,12 +612,12 @@ public class PlayerInput : MonoBehaviour
                 Disc_sk = collision.gameObject.GetComponent<Disc_Script>();
                 if (Disc_sk.timeToWait <= 0.45f)
                 {
-                    Deth();
+                    Death();
                 }
             }
             if (collision.gameObject.CompareTag("BigRock"))
             {
-                Deth();
+                Death();
             }
             
             if (collision.gameObject.CompareTag("Keycard"))
@@ -629,12 +629,12 @@ public class PlayerInput : MonoBehaviour
             
             if (collision.gameObject.CompareTag("weapon"))
             {
-                var sk = collision.gameObject.GetComponent<FolowPlayer>();
+                var sk = collision.gameObject.GetComponent<FollowPlayer>();
                 if (sk.Atacking && sk.playerNumber != PlayerNUM)
                 {
                     if (sk.isSpikeBat && collision.gameObject != Sword)
                     {
-                        Deth();
+                        Death();
                     }
                     else
                     {
@@ -660,7 +660,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (_roundManagerScr.ShowContinue)
         {
-            SowrdSc.ResetSpikes();
+            SwordSc.ResetSpikes();
             ManagerSK.Continue();
         }
         

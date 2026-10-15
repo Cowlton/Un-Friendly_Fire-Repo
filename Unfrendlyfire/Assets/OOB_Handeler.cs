@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class OOB_Handeler : MonoBehaviour
@@ -14,6 +15,8 @@ public class OOB_Handeler : MonoBehaviour
 
     private float _speed;
     
+    [NonSerialized]public int ColorInt;
+    
     public PlayerInput playerInputScr;
     private Animator _anim;
     
@@ -23,6 +26,7 @@ public class OOB_Handeler : MonoBehaviour
         var oob = Instantiate(OOB_prefab, transform.position, transform.rotation);
         _oobScr = oob.GetComponent<OOB_indacater>();
         _oobScr.player = transform;
+        _oobScr.ColorInt = ColorInt;
         _anim = _oobScr.anim;
 
     }
@@ -66,16 +70,15 @@ public class OOB_Handeler : MonoBehaviour
         {
             _timeRemaining = 0f;
             _speed = 0f;
+            _anim.SetBool("AboutToDie",false);
             _timerRunning = false;
-
             TimerFinished();
         }
     }
 
     void TimerFinished()
     {
-        playerInputScr.Deth();
+        playerInputScr.Death();
         _oobScr.Hide(true);
-        _anim.SetBool("AboutToDie",false);
     }
 }

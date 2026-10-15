@@ -32,7 +32,7 @@ public class SliderSc : MonoBehaviour
         _managerSc = _manager.GetComponent<Maneger>();
         
         Rect = gameObject.GetComponent<RectTransform>();
-        OFT_sc =  OverFlowText.GetComponent<NumEffect>();
+        OFT_sc = OverFlowText.GetComponent<NumEffect>();
         OverFlowText.SetActive(false);
         PointObj = GameObject.FindWithTag("SliderCon");
         pointSc = PointObj.GetComponent<PointSc>();
@@ -48,7 +48,7 @@ public class SliderSc : MonoBehaviour
                 slider.value += val * Time.deltaTime * speed;
             }
         }
-        if (slider.value == 1 && !hasWon)
+        if (slider.value >= slider.maxValue && !hasWon)
         {
             Won();
             _managerSc.PlayerWon();
@@ -60,6 +60,10 @@ public class SliderSc : MonoBehaviour
     {
         value = 0;
         slider.value = 0;
+        OverFlowText.GetComponent<NumEffect>().Reset();
+        OverFlowText.SetActive(false);
+        OFT_active = false;
+        hasWon = false;
     }
 
     public void Won()

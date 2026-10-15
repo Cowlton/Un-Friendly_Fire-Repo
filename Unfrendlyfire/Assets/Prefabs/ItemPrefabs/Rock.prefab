@@ -469,7 +469,8 @@ MonoBehaviour:
   objectToSpawn: {fileID: 0}
   showItem: 0
   itemDisplay: {fileID: 2026959973201907471}
-  _sprite: {fileID: 0}
+  _itemDisplayRenderer: {fileID: 5982128647298317567}
+  sprite: {fileID: 0}
 --- !u!60 &3295174697859085221
 PolygonCollider2D:
   m_ObjectHideFlags: 0

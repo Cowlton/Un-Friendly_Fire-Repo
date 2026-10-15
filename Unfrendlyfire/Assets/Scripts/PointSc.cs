@@ -46,53 +46,65 @@ public class PointSc : MonoBehaviour
             slider.Reset();
         }
     }
-    public async Task AddCash(int player, float cash, bool Bonus)
+    public async Task AddCash(int player, float cash, bool bonus)
     {
         for (int i = 0; i < cash; i ++)
         {
             var cash_sc = PlayerCash[player].GetComponent<NumEffect>();
-            var newCash = Instantiate(Cash, PlayerCash[player].transform.position,Quaternion.identity);
-            newCash.transform.SetParent(canvas.transform, true);
             
+            var newCash = Instantiate(Cash, canvas.transform, false);
+
+            RectTransform cashRect = newCash.GetComponent<RectTransform>();
+            RectTransform playerCashRect = PlayerCash[player].GetComponent<RectTransform>();
+
+            cashRect.position = playerCashRect.position;
+
             var CashSc = newCash.GetComponent<CashMove>();
-            CashSc.CashBag = moneyBagObjs[player];
+            CashSc.target = moneyBagObjs[player];
             cash_sc.Remove();
             await Task.Delay(200);
         }
 
-        if (Bonus)
+        if (bonus)
         {
-            bonus(player);
+            Bonus(player);
         }
     }
 
-    public void bonus(int player)
+    public void Bonus(int player)
     {
         try
         {
             for (int i = 0; i < bonusAmount; i++)
             {
             
+               // var playerCashRect = PlayerCash[player].transform.position;
+                
                 float angle = i * Mathf.PI * 2f / bonusAmount;   // Even angle spacing
                 float x = Mathf.Cos(angle) * radius;
                 float y = Mathf.Sin(angle) * radius;
+
                 Vector3 pos = new Vector3(x, y, 0f) + PlayerCash[player].transform.position;
+                
             
-                var newCash = Instantiate(Cash,pos ,Quaternion.identity);
-                newCash.transform.SetParent(canvas.transform, true);
+                /*var newCash = Instantiate(Cash,pos ,Quaternion.identity);
+                newCash.transform.SetParent(canvas.transform, true);*/
+                
+                var newCash = Instantiate(Cash, canvas.transform, false);
+
+                RectTransform cashRect = newCash.GetComponent<RectTransform>();
+                cashRect.position = pos;
+                
                 var CashSc = newCash.GetComponent<CashMove>();
                 CashSc.Delay = 0.5f;
-                CashSc.CashBag = moneyBagObjs[player];
+                CashSc.target = moneyBagObjs[player];
             
             }
-
-            return;
         }
         catch (Exception exception)
         {
             Debug.Log("Hustin We Have a problem");
             Task.FromException(exception);
-            return;
         }
     }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public class FolowPlayer : MonoBehaviour
+public class FollowPlayer : MonoBehaviour
 {
 
     public float playerNumber;
@@ -81,7 +81,7 @@ public class FolowPlayer : MonoBehaviour
         }
         
         
-        _spriteRenderer =  sprite.GetComponent<SpriteRenderer>();
+        
 
        // GameObject trailObject = Instantiate(Trial, transform.position, Quaternion.identity);
 
@@ -91,7 +91,9 @@ public class FolowPlayer : MonoBehaviour
         
            _colorCon =  colorChanger.GetComponent<ColorControllSC>();
        }
-        
+       _spriteRenderer =  sprite.GetComponent<SpriteRenderer>();
+       _spriteRenderer.sprite = _colorCon.sowrdSprites[colorIndex];
+       
        /* var trail = trailObject.GetComponent<TrailRenderer>();
         
         var color = _colorCon.GetColor(colorIndex);
@@ -123,37 +125,45 @@ public class FolowPlayer : MonoBehaviour
     }
     
 
-    public void Deactavate()
+    public void Deactivate()
     {
         gameObject.SetActive(false);
 
     }
 
-    public void Actavate()
+    public void Activate()
     {
         gameObject.SetActive(true);
 
     }
     public void Attack()
     {
+        
+        /*
+            Current Scr Attack
+         */
         PauseTime = 2;
         Atacking = true;
+        /*
         animator.SetBool("attack", true);
-        animator.SetBool("attack", false);
+        animator.SetBool("attack", false);*/
         if (RotationOffset == 0)
         {
             RotationOffset = -90;
-        }else if (RotationOffset < -80)
+        }else if (RotationOffset <= -90)
         {
             RotationOffset = 0;
         }
 
-        Debug.Log("Attacked");
+       //Debug.Log("Attacked");
         
     }
 
     void HitRock(GameObject collision)
     {
+        /*
+            Delete Collision And Move it to SwordSc
+         */
             if (hittingRock == true)
             {
                 Vector3 heading = collision.transform.position - leaderObject.transform.position;
@@ -196,7 +206,7 @@ public class FolowPlayer : MonoBehaviour
 
     void Update()
     {
-        if (Atacking == true)
+        if (Atacking)
         {
             var trail = Instantiate(SowrdTrail, transform.position, transform.rotation);
             var trailSprite = trail.GetComponent<SpriteRenderer>();
@@ -217,21 +227,15 @@ public class FolowPlayer : MonoBehaviour
             PauseTime -= 0.02f;
         }
         
-            if (RotationOffset == 0 && CerrentRotationOffset <= 0)
-            {
-
-                CerrentRotationOffset += RSPEED * Time.deltaTime;
-
-            }
-            else if (RotationOffset < -80 && CerrentRotationOffset >= -90)
-            {
-
-                CerrentRotationOffset -= RSPEED * Time.deltaTime;
-
-            }
+        if (RotationOffset == 0 && CerrentRotationOffset <= 0)
+        {
+            CerrentRotationOffset += RSPEED * Time.deltaTime;
+        }
+        else if (RotationOffset < -80 && CerrentRotationOffset >= -90)
+        {
+            CerrentRotationOffset -= RSPEED * Time.deltaTime;
+        }
         
-
-
         /*
 
          float angle = Mathf.Atan2(PlayerSk.velocity.y, PlayerSk.velocity.x) * Mathf.Rad2Deg;
@@ -267,13 +271,15 @@ public class FolowPlayer : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, endPosition, followSpeed * Time.deltaTime);
 
 
-            // Smoothly rotate the follower to match the leader's rotation
+            // Smoothly rotate the follower to match the leader's rotation 
+            /*
+             *Delete and add to swordSc
+             * 
+             */
            
-                Quaternion targetRotation = Quaternion.Euler(0, 0, rotation + CerrentRotationOffset); ;
+            Quaternion targetRotation = Quaternion.Euler(0, 0, rotation + CerrentRotationOffset); ;
 
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
-            
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
 }
