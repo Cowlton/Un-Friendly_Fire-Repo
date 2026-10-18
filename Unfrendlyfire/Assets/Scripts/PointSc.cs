@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class PointSc : MonoBehaviour
 {
+    public Maneger manager;
 
     public float maxPoints = 30;
     public int bonusAmount = 5;
@@ -28,6 +29,7 @@ public class PointSc : MonoBehaviour
     public GameObject[] moneyBagObjs;
     
     public GameObject canvas;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -73,22 +75,19 @@ public class PointSc : MonoBehaviour
 
     public void Bonus(int player)
     {
+        
+        UISpriteChanger scr = manager.playerDesplayScr[player];
+        scr.Won();
         try
         {
             for (int i = 0; i < bonusAmount; i++)
             {
-            
-               // var playerCashRect = PlayerCash[player].transform.position;
                 
                 float angle = i * Mathf.PI * 2f / bonusAmount;   // Even angle spacing
                 float x = Mathf.Cos(angle) * radius;
                 float y = Mathf.Sin(angle) * radius;
 
                 Vector3 pos = new Vector3(x, y, 0f) + PlayerCash[player].transform.position;
-                
-            
-                /*var newCash = Instantiate(Cash,pos ,Quaternion.identity);
-                newCash.transform.SetParent(canvas.transform, true);*/
                 
                 var newCash = Instantiate(Cash, canvas.transform, false);
 

@@ -23,7 +23,7 @@ public class SwordSc : MonoBehaviour
 
     // Speed at which the follower will move toward the end of the leader
     public float rotationSpeed = 5f;
-    PlayerInput PlayerSk;
+    PlayerMovement PlayerSk;
 
     public GameObject rockId;
     public GameObject SowrdTrail;

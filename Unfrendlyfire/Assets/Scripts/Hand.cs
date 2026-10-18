@@ -12,11 +12,11 @@ public class Hand : MonoBehaviour
     public float walkLeftOffset;
     public float walkRightOffset;
     
-    PlayerInput PlayerSk;
+    PlayerMovement PlayerSk;
     // Start is called before the first frame update
     void Start()
     {
-        PlayerSk = leaderObject.gameObject.GetComponent<PlayerInput>();
+        PlayerSk = leaderObject.gameObject.GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame

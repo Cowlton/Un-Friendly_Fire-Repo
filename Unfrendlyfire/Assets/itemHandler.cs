@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ItemHandler : MonoBehaviour
 {
-    private PlayerInput _playerInput;
+    private PlayerMovement _playerMovement;
 
     private GameObject _manager;
     private Maneger _managerSc;
@@ -33,18 +33,18 @@ public class ItemHandler : MonoBehaviour
     {
         _manager = GameObject.FindWithTag("Manager");
         _managerSc =  _manager.GetComponent<Maneger>();
-        _playerInput =  gameObject.GetComponent<PlayerInput>();
-        _playerNum = _playerInput.PlayerNUM;
-        _powerHoldSc = _playerInput.PowerHoldSc;
+        _playerMovement =  gameObject.GetComponent<PlayerMovement>();
+        _playerNum = _playerMovement.PlayerNUM;
+        _powerHoldSc = _playerMovement.PowerHoldSc;
 
         if (_managerSc != null)
         {
             
-            RockPower = _managerSc.PlayerRocks[(int)_playerNum-1];
-            DiscPower = _managerSc.PlayerDiscs[(int)_playerNum-1];
-            LandMinePower = _managerSc.PlayerLandMines[(int)_playerNum-1];
-            EyePower = _managerSc.PlayerEyes[(int)_playerNum-1];
-            SpikePower = _managerSc.PlayerBats[(int)_playerNum-1];
+            RockPower = _managerSc.PlayerRocks[(int)_playerNum];
+            DiscPower = _managerSc.PlayerDiscs[(int)_playerNum];
+            LandMinePower = _managerSc.PlayerLandMines[(int)_playerNum];
+            EyePower = _managerSc.PlayerEyes[(int)_playerNum];
+            SpikePower = _managerSc.PlayerBats[(int)_playerNum];
         
         
             RockPower.SetActive(false);
@@ -58,8 +58,8 @@ public class ItemHandler : MonoBehaviour
 
     public void UsePower()
     {
-        if (_managerSc.roundEnded || !_playerInput.canMove) return;
-        if (_playerInput.alive)
+        if (_managerSc.roundEnded || !_playerMovement.canMove) return;
+        if (_playerMovement.alive)
         {
             if (hasItem)
             {
@@ -78,9 +78,10 @@ public class ItemHandler : MonoBehaviour
         }
         else
         {
-            _playerInput.UnDie();
+            _playerMovement.UnDie();
         }
     }
+    
     void UseRock()
     {
         RockPower.SetActive(false);
@@ -88,15 +89,17 @@ public class ItemHandler : MonoBehaviour
         _managerSc.SpawnBigRock();
         Debug.Log("Used Rock");
     }
+    
     void UseDisk()
     {
         DiscPower.SetActive(false);
         
         var newObject = Instantiate(disc, transform.position, Quaternion.identity);
         _discSk = newObject.GetComponent<Disc_Script>();
-        _discSk.moveDirection = _playerInput.LastVelocity;
+        _discSk.moveDirection = _playerMovement.LastVelocity;
         Debug.Log("Used Disk");
     }
+    
     void UseLandMine()
     {
         LandMinePower.SetActive(false);
@@ -104,6 +107,7 @@ public class ItemHandler : MonoBehaviour
         Instantiate(landMine, transform.position, Quaternion.identity);
         Debug.Log("Used Land Mine");
     }
+    
     void UseEye()
     {
         EyePower.SetActive(false);
@@ -116,9 +120,10 @@ public class ItemHandler : MonoBehaviour
         }
         Debug.Log("Use Eye");
     }
+    
     void UseSpikes()
     {
-        List<PlayerInput> Players = _managerSc.PlayerSc;
+        List<PlayerMovement> Players = _managerSc.PlayerSc;
         foreach (var Player in Players)
         {
             Player.MakeSpikeBat();
@@ -126,8 +131,6 @@ public class ItemHandler : MonoBehaviour
         
         SpikePower.SetActive(false);
     }
-    
-    
 
     public void ClearInventory()
     {
@@ -143,20 +146,23 @@ public class ItemHandler : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         var other = collision.gameObject;
-        if (!hasItem)
+        if (_playerMovement != null)
         {
-            foreach (var power in powers)
+            if (!hasItem && _playerMovement.alive)
             {
-                if(power == null || power.item == null)
-                    continue;
-                if (other.CompareTag(power.item.tag))
+                foreach (var power in powers)
                 {
-                    powerNum = power.powerNum;
-                    hasItem = true;
-                    _powerHoldSc.SetSprite(power.powerNum);
-                    ShowUI(power.powerNum);
-                    Destroy(other);
-                    return;
+                    if(power == null || power.item == null)
+                        continue;
+                    if (other.CompareTag(power.item.tag))
+                    {
+                        powerNum = power.powerNum;
+                        hasItem = true;
+                        _powerHoldSc.SetSprite(power.powerNum);
+                        ShowUI(power.powerNum);
+                        Destroy(other);
+                        return;
+                    }
                 }
             }
         }

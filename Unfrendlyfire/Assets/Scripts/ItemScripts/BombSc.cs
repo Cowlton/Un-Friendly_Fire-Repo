@@ -37,7 +37,7 @@ public class BombSc : MonoBehaviour
             
             if (collider.gameObject.CompareTag("Player"))
             {
-                var sc = collider.gameObject.GetComponent<PlayerInput>();
+                var sc = collider.gameObject.GetComponent<PlayerMovement>();
                 if (sc.alive)
                 {
                     Activate();

@@ -17,7 +17,7 @@ public class OOB_Handeler : MonoBehaviour
     
     [NonSerialized]public int ColorInt;
     
-    public PlayerInput playerInputScr;
+    public PlayerMovement playerMovementScr;
     private Animator _anim;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,6 +28,8 @@ public class OOB_Handeler : MonoBehaviour
         _oobScr.player = transform;
         _oobScr.ColorInt = ColorInt;
         _anim = _oobScr.anim;
+        
+        playerMovementScr = GetComponent<PlayerMovement>();
 
     }
 
@@ -78,7 +80,7 @@ public class OOB_Handeler : MonoBehaviour
 
     void TimerFinished()
     {
-        playerInputScr.Death();
+        playerMovementScr.Death();
         _oobScr.Hide(true);
     }
 }

@@ -27,7 +27,6 @@ public class CashBagSc : MonoBehaviour
 
     public async Task AddCash()
     {
-
         slider.Incramint();
         
         Vector2 size = Rect.sizeDelta;
@@ -36,7 +35,5 @@ public class CashBagSc : MonoBehaviour
         Rect.sizeDelta = size;
         await Task.Delay(100);
         Rect.sizeDelta = Size;
-
-        
     }
 }

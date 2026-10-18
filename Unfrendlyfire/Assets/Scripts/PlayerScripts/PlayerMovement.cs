@@ -8,9 +8,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
 
+    private PlayerConfig _playerConfig;
+    private PlayerControls _controls;
+    
     private Animator _animator;
 
     public GameObject CameraObj;
@@ -85,7 +88,7 @@ public class PlayerInput : MonoBehaviour
     public float amountOfForce;
     private float baseForce;
     
-    public float PlayerNUM = 0;
+    public int PlayerNUM = 0;
     public float RotationSpe;
 
     public float ResponTime = 3;
@@ -111,8 +114,10 @@ public class PlayerInput : MonoBehaviour
     public GameObject _playerTrail;
     private SpriteRenderer _spriteRenderer;
     //Sprite
-    Sprite GohstSP;
-    Sprite BaiseColer;
+    [NonSerialized]public Sprite GhostSp;
+    [NonSerialized]public Sprite BaiseColor;
+    [NonSerialized]public Sprite SwordSpr;
+    [NonSerialized]public Sprite HandSprite;
 
     //Transform
     // private
@@ -133,7 +138,7 @@ public class PlayerInput : MonoBehaviour
     {
         alive = true;
         
-        spriteRenderer.sprite = BaiseColer;
+        spriteRenderer.sprite = BaiseColor;
         SwordSc.Activate();
         Hand_sc.gameObject.SetActive(true);
         _animator.SetBool("IsDead",false);
@@ -163,8 +168,9 @@ public class PlayerInput : MonoBehaviour
         SwordSc.BecomeSpikeBat();
     }
 
-    void Start()
+    void Awake()
     {
+        _controls = new PlayerControls();
         spriteRenderer = GetComponent<SpriteRenderer>();
         
         dethSpot = GameObject.FindWithTag("DethSpot");
@@ -192,31 +198,20 @@ public class PlayerInput : MonoBehaviour
         
         SwordSc.leaderObject = transform;
         Hand_sc.leaderObject = transform;
-        if (GameObject.FindGameObjectWithTag("Manager") != null)
+        if (manager == null)
         {
             manager = GameObject.FindWithTag("Manager");
-            ManagerSK = manager.GetComponent<Maneger>();
-            PlayerNUM = ManagerSK.Player.Count + 1;
-            
-            ManagerSK.PlayerSc.Add(GetComponent<PlayerInput>());
+            ManagerSK = manager.GetComponent<Maneger>(); 
+        }
+        
+        if (GameObject.FindGameObjectWithTag("Manager") != null)
+        {
+            ManagerSK.PlayerSc.Add(GetComponent<PlayerMovement>());
             
             _itemHandler = gameObject.GetComponent<ItemHandler>();
             
-            SwordSc.playerNumber = PlayerNUM;
-            coler_index = ManagerSK.PICK();
-            SwordSc.colorIndex = coler_index;
-        
             PowerHoldSc = newHand.GetComponent<ItemsToHold_sc>();
-
-            _spriteRenderer.sprite = ManagerSK.PlayerSprite;
-            BaiseColer = ManagerSK.PlayerSprite;
-
-            GohstSP = ManagerSK.DeadPlayerSprite;
-            var Sowrd_spr = newSowrd.GetComponentInChildren<SpriteRenderer>();
-            Sowrd_spr.sprite = ManagerSK.SowrdSprite;
-            var Hand_Spr = newHand.GetComponent<SpriteRenderer>();
-            Hand_Spr.sprite = ManagerSK.HandSprite;
-        
+            
             ManagerSK.Player.Add(gameObject);
         }
         
@@ -229,10 +224,77 @@ public class PlayerInput : MonoBehaviour
         _boundsLeft = boundsScr.boundsLeft;
         // Initialize Rigidbody2D
         _roundManagerScr = ManagerSK.roundManager;
+        
+    }
 
+
+    public void InitializePlayer(PlayerConfig pc)
+    {
+        if (manager == null)
+        {
+            manager = GameObject.FindWithTag("Manager");
+            ManagerSK = manager.GetComponent<Maneger>();
+        }
+        
+        _playerConfig = pc;
+        _playerConfig.Input.onActionTriggered += Input_onActionTriggered;
+        PlayerNUM = _playerConfig.PlayerIndex;
+        SetColors();
+    }
+
+    private void SetColors()
+    {
+        coler_index = _playerConfig.ColorIndex;
+        
+        var scr = gameObject.GetComponent<PlayerMovement>();
+        ManagerSK.SetColors(coler_index, scr);
+        
+        _spriteRenderer.sprite = BaiseColor;
+        
+        var swordSpr = SwordSc.GetComponentInChildren<SpriteRenderer>();
+        swordSpr.sprite = SwordSpr;
+        
+        SwordSc.colorIndex = coler_index;
+        SwordSc.playerNumber = PlayerNUM;
+        
+        var handSpr = newHand.GetComponent<SpriteRenderer>();
+        handSpr.sprite = HandSprite;
+        
         _oobScr = GetComponent<OOB_Handeler>();
         _oobScr.ColorInt = coler_index;
+    }
 
+    private void Input_onActionTriggered(InputAction.CallbackContext context)
+    {
+        if (context.action.name == _controls.Player.Move.name)
+        {
+            OnMove(context);
+        }
+
+        if (context.action.name == _controls.Player.Dash.name)
+        {
+            Dash();
+        }
+
+        if (context.action.name == _controls.Player.UNDash.name)
+        {
+            UnDash();
+        }
+
+        if (context.action.name == _controls.Player.UseItem.name)
+        {
+            _itemHandler.UsePower();
+        }
+
+        if (context.action.name == _controls.Player.Attack.name)
+        {
+            Attack();
+        }
+
+        if (context.action.name == _controls.Player.Continue.name)
+        {
+            Continue();
+        }
     }
 
     // Called by the Input System when the player gives movement input
@@ -499,7 +561,7 @@ public class PlayerInput : MonoBehaviour
                         CameraSc.players.Add(transform);
                     }
 
-                    int player = (int)PlayerNUM - 1;
+                    int player = PlayerNUM;
                     ManagerSK.PlayerRevived(player);
                     canMove = true;
                 }
@@ -552,8 +614,9 @@ public class PlayerInput : MonoBehaviour
 
     public void Store()
     {
-        
         CameraSc.players.Remove(transform);
+        
+        _itemHandler.hasItem = false;
         
         //Debug.Log("Stored player");
         var newPos = transform.position;
@@ -572,7 +635,7 @@ public class PlayerInput : MonoBehaviour
     {
         
         Instantiate(DethSound, transform.position, Quaternion.identity);
-        spriteRenderer.sprite = GohstSP;
+        spriteRenderer.sprite = GhostSp;
         _animator.SetBool("IsDead",true);
         SwordSc.Deactivate();
         Hand_sc.gameObject.SetActive(false);
@@ -581,8 +644,8 @@ public class PlayerInput : MonoBehaviour
 
         SwordSc.ResetSpikes();
         
-        int player = (int)PlayerNUM - 1;
-        ManagerSK.PlayerDied(player);
+        int num = PlayerNUM;
+        ManagerSK.PlayerDied(num);
         alive = false;
         canMove = false;
         
@@ -622,8 +685,8 @@ public class PlayerInput : MonoBehaviour
             
             if (collision.gameObject.CompareTag("Keycard"))
             {
-                int playerInt = (int)PlayerNUM;
-                ManagerSK.Collect(playerInt-1);
+                int playerInt = PlayerNUM;
+                ManagerSK.Collect(playerInt);
                 Destroy(collision.gameObject);
             }
             

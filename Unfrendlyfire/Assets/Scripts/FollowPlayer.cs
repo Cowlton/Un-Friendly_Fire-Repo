@@ -7,7 +7,7 @@ using UnityEngine;
 public class FollowPlayer : MonoBehaviour
 {
 
-    public float playerNumber;
+    public int playerNumber;
     
     public float walkLeftOffset;
     public float walkRightOffset;
@@ -44,7 +44,7 @@ public class FollowPlayer : MonoBehaviour
     // Speed at which the follower will move toward the end of the leader
     public float followSpeed = 5f;
     public float rotationSpeed = 5f;
-    PlayerInput PlayerSk;
+    PlayerMovement PlayerSk;
     public GameObject Trial;
 
     public GameObject rockId;
@@ -72,7 +72,7 @@ public class FollowPlayer : MonoBehaviour
 
         gameObject.SetActive(true);
         StHitForce = HitForce;
-        PlayerSk = leaderObject.gameObject.GetComponent<PlayerInput>();
+        PlayerSk = leaderObject.gameObject.GetComponent<PlayerMovement>();
 
         if (GameObject.FindWithTag("Manager") != null)
         {

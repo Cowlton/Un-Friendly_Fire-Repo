@@ -54,9 +54,9 @@ ScriptedImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 1
-    wrapV: 1
-    wrapW: 1
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
     normalMap: 0
     textureFormat: 0
     maxTextureSize: 0
@@ -102,7 +102,7 @@ ScriptedImporter:
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
   importFileNodeState: 1
-  platformSettingsDirtyTick: 639116918955751579
+  platformSettingsDirtyTick: 639277713928311080
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -300,7 +300,7 @@ ScriptedImporter:
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 14, y: 10, z: 12, w: 13}
     customData: 
     rect:
       serializedVersion: 2
@@ -321,7 +321,7 @@ ScriptedImporter:
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 14, y: 10, z: 12, w: 13}
     customData: 
     rect:
       serializedVersion: 2
@@ -342,7 +342,7 @@ ScriptedImporter:
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 14, y: 10, z: 12, w: 13}
     customData: 
     rect:
       serializedVersion: 2
@@ -363,7 +363,7 @@ ScriptedImporter:
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 14, y: 10, z: 12, w: 13}
     customData: 
     rect:
       serializedVersion: 2
@@ -384,7 +384,7 @@ ScriptedImporter:
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 14, y: 10, z: 12, w: 9}
     customData: 
     rect:
       serializedVersion: 2
@@ -405,12 +405,12 @@ ScriptedImporter:
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 14, y: 10, z: 12, w: 13}
     customData: 
     rect:
       serializedVersion: 2
       x: 103
-      y: 4
+      y: 95
       width: 91
       height: 83
     spriteID: f0baecce906691d449f23882f5813456
@@ -426,12 +426,12 @@ ScriptedImporter:
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 14, y: 10, z: 12, w: 13}
     customData: 
     rect:
       serializedVersion: 2
       x: 103
-      y: 95
+      y: 4
       width: 91
       height: 83
     spriteID: 363c710a85683574fa73c2e570d63b80
@@ -447,7 +447,7 @@ ScriptedImporter:
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 14, y: 10, z: 12, w: 13}
     customData: 
     rect:
       serializedVersion: 2
@@ -584,6 +584,30 @@ ScriptedImporter:
     overridden: 0
     ignorePlatformSupport: 0
     maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Android
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: iPhone
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0

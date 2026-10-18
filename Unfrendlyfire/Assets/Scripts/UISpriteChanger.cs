@@ -7,13 +7,13 @@ using UnityEngine.UI;
 
 public class UISpriteChanger : MonoBehaviour
 {
-    public Sprite[] avatarDefalt;
-    public Sprite[] avatarFistPump;
-    public Sprite[] avatarMoney;
-    public Sprite[] avatarDeath;
-    public Sprite[] avatarRedEye;
+    [NonSerialized]public Sprite AvatarDefault;
+    [NonSerialized]public Sprite AvatarFistPump;
+    [NonSerialized]public Sprite AvatarMoney;
+    [NonSerialized]public Sprite AvatarDeath;
+    [NonSerialized]public Sprite AvatarRedEye;
     
-    public TextMeshProUGUI OFT;
+    public TextMeshProUGUI OFT; // overflow text
 
     private bool isDefalt = false;
     
@@ -26,22 +26,20 @@ public class UISpriteChanger : MonoBehaviour
 	private PointSc SliderCon_sc;
 	
     public GameObject KeycardBack;
-
-    public Sprite[] BoxSprites;
-
+    
     private GameObject manager;
     private Maneger ManagerSK;
 
-    public int PlayerNUM;
+    [NonSerialized]public int PlayerNum;
     
     private bool hasChanged = false;
 
-    [NonSerialized]public int color = 0;
+    [NonSerialized]public int Color = 0;
 
     private float timer;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         manager = GameObject.FindWithTag("Manager");
         ManagerSK = manager.GetComponent<Maneger>();
@@ -53,42 +51,32 @@ public class UISpriteChanger : MonoBehaviour
         _colorCon = colorChanger.GetComponent<ColorControllSC>();
 
     }
-
+    
     public void GotCash()
     {
         timer = Time.time + 0.4f;
         isDefalt = false;
+        avater.sprite = AvatarFistPump;
         
-        if (avatarFistPump.Length >= color)
-        {
-            avater.sprite = avatarFistPump[color];
-        }
     }
 
 
     public void Died()
     {
-        if (avatarDeath.Length >= color)
-        {
-            avater.sprite = avatarDeath[color];
-        }
+        avater.sprite = AvatarDeath;
     }
     public void Won()
     {
         timer = Time.time + 0.7f;
         isDefalt = false;
-        if (avatarMoney.Length >= color)
-        {
-            avater.sprite = avatarMoney[color];
-        }
+        
+        avater.sprite = AvatarMoney;
+        
     }
 
-    public void DefaltAvatar()
+    public void DefaultAvatar()
     {
-        if (avatarDefalt.Length >= color)
-        {
-            avater.sprite = avatarDefalt[color];
-        }
+        avater.sprite = AvatarDefault;
     }
     
 
@@ -98,25 +86,23 @@ public class UISpriteChanger : MonoBehaviour
         if (timer <= Time.time && !isDefalt)
         {
             isDefalt = true;
-            DefaltAvatar();
-        }
-        if (hasChanged == false && PlayerNUM == ManagerSK.Player.Count)
-        {
-            changeSprites();
-            hasChanged = true;
+            DefaultAvatar();
         }
     }
     
-    void changeSprites()
+    public void ChangeSprites(int color)
     {
-        var changeColor = _colorCon.GetColor(color);
+        Color = color;
+        var scr = gameObject.GetComponent<UISpriteChanger>();
+        _colorCon.AssignAvatarSprites(scr, Color);
+        
+        var changeColor = _colorCon.GetColor(Color);
         OFT.color = changeColor;
-        DefaltAvatar();
         
-         Image image = KeycardBack.GetComponent<Image>();
-         image.sprite = BoxSprites[color];
-		 SliderCon_sc.ChangeSliders(PlayerNUM-1,color);
-                     
+        DefaultAvatar();
         
+        Image image = KeycardBack.GetComponent<Image>();
+        image.sprite = _colorCon.boxSprites[Color];
+        SliderCon_sc.ChangeSliders(PlayerNum,Color);
     }
 }

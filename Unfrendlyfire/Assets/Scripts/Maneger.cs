@@ -72,23 +72,18 @@ public class Maneger : MonoBehaviour
 
     public Transform Ymax;
     public Transform Ymin;
-
-    public Sprite PlayerSprite;
-    public Sprite DeadPlayerSprite;
-    public Sprite HandSprite;
-    public Sprite SowrdSprite;
-
+    
     public UISpriteChanger[] playerDesplayScr;
 
     public List<GameObject> Player;
-    public List<PlayerInput> PlayerSc;
+    public List<PlayerMovement> PlayerSc;
     
     public List<String> tagsToDistroy = new List<string>(){"RockMaker","DiscMaker","LandMineMaker","Landmine","Keycard"};
     
     public RoundManagerScr roundManager;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         for (int i = 0; i < PlayerUIs.Count; i++)
         {
@@ -98,9 +93,7 @@ public class Maneger : MonoBehaviour
 
         cashTracker.Reset();
         
-        
         MakeNewRocks();
-        
     }
 
     // Update is called once per frame
@@ -119,7 +112,7 @@ public class Maneger : MonoBehaviour
         if (playerDesplayScr.Length >= player){
             
             UISpriteChanger scr = playerDesplayScr[player];
-            scr.DefaltAvatar();
+            scr.DefaultAvatar();
         }
     }
     
@@ -184,28 +177,19 @@ public class Maneger : MonoBehaviour
 
     }
 
-    public int PICK()
+    public void SetColors(int col , PlayerMovement player)
     {
-
-        RanColor = Random.Range(0, RanNums.Count);
+        player.BaiseColor = PlayerSprites[col];
+        player.GhostSp = DeadPlayerSprites[col];
+        player.SwordSpr = SowrdSprites[col];
+        player.HandSprite = HandSprites[col];
         
-        int col = RanNums[RanColor];
-        
-        PlayerSprite = PlayerSprites[col];
-        DeadPlayerSprite = DeadPlayerSprites[col];
-        SowrdSprite = SowrdSprites[col];
-        HandSprite = HandSprites[col];
-        
-        GameObject curUI = PlayerUIs[Player.Count];
+        GameObject curUI = PlayerUIs[player.PlayerNUM];
         curUI.SetActive(true);
-        var UISc = curUI.GetComponent<UISpriteChanger>();
-            
-        UISc.color = col;
-        
-        RanNums.RemoveAt(RanColor);
-        
-        return col;
-
+        var uiSc = curUI.GetComponent<UISpriteChanger>();
+        uiSc.PlayerNum = player.PlayerNUM;
+        uiSc.Color = col;
+        uiSc.ChangeSprites(col);
     }
     
     public void ClearScores()

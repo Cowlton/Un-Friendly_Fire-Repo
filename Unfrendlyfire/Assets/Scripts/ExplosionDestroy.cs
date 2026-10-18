@@ -10,7 +10,7 @@ public class ExplosionDestroy : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            var sc = collider.gameObject.GetComponent<PlayerInput>();
+            var sc = collider.gameObject.GetComponent<PlayerMovement>();
             sc.Death();
         }
         if (collider.gameObject.CompareTag("Rock"))
