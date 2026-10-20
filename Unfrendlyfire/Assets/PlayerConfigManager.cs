@@ -42,10 +42,9 @@ public class PlayerConfigManager : MonoBehaviour
         colors.Remove(color);
         return color;
     }
-
+    
     public void PlayerJoin(PlayerInput pi)
     {
-       
         Debug.Log($"PlayerJoin {pi}");
         if (_playerConfigs.All(p => p.PlayerIndex != pi.playerIndex))
         {
@@ -65,6 +64,20 @@ public class PlayerConfigManager : MonoBehaviour
         }
     }
 
+    public void Leave(int index,int colorIndex)
+    {
+        if (_playerConfigs.Count >= index)
+        {
+            _playerConfigs.RemoveAt(index);
+        }
+        else
+        {
+            Debug.Log($"Player ID: {_playerConfigs[index].PlayerIndex} is outside of range");
+        }
+        promptHandler.HideJoinPrompt();
+        colors.Add(colorIndex);
+    }
+    
     public void StartGame()
     {
         SceneManager.LoadScene("0");
@@ -91,6 +104,6 @@ public class PlayerConfig
     public int PlayerIndex {get;set;}
     
     public bool IsReady {get;set;}
-
+   
     public int ColorIndex {get;set;}
 }

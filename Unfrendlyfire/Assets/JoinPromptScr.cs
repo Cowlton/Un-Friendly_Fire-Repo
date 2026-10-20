@@ -2,46 +2,42 @@ using UnityEngine;
 
 public class JoinPromptScr : MonoBehaviour
 {
-    private RectTransform _rect;
-    [SerializeField]private float scaleAmount;
-    private float _scaleTo;
 
-    [Range(0, 1)]
-    [SerializeField]private float slowDownPoint;
-    [SerializeField]private float slowDownAmount;
+    [SerializeField]private Animator animator;
 
-    private bool _scale;
+    private bool _active;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+   
+    public void Appear()
     {
-        _rect = gameObject.GetComponent<RectTransform>();
-        _scaleTo = _rect.localScale.x;
+        
+        _active = true;
+        gameObject.SetActive(true);
+        animator.SetBool("Appear", true);
+        
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Idle()
     {
-        if (_rect.localScale.x < _scaleTo && _scale)
+        animator.SetBool("Appear", false);
+    }
+
+    public void Leave()
+    {
+        if (_active)
         {
-            var amount = scaleAmount;
-            if (_rect.localScale.x >= slowDownPoint)
-            {
-                amount =  slowDownAmount;
-            }
-            Vector2 size = _rect.localScale;
-            size.x += amount * Time.deltaTime;
-            size.y += amount * Time.deltaTime;
-            _rect.localScale = size;
-        } else if (_rect.localScale.x > _scaleTo)
-        {
-            _rect.localScale = new Vector2(_scaleTo, _scaleTo);
+            animator.SetBool("Leave", true);
+            _active = false;
         }
     }
 
-    public void Appear()
+    public void Hide()
     {
-        _rect.localScale = new Vector2(0.2f, 0.2f);
-        gameObject.SetActive(true);
-        _scale = true;
+        if (!_active)
+        {
+            gameObject.SetActive(false);
+        }
+        animator.SetBool("Leave", false);
     }
+    
 }

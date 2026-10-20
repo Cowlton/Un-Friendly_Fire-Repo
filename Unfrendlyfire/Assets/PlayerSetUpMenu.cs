@@ -1,12 +1,16 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerSetUpMenue : MonoBehaviour
+public class PlayerSetUpMenu : MonoBehaviour
 {
 
+    [NonSerialized] public GameObject Config;
     private int _playerIndex;
+    private int _color;
 
     [SerializeField] private TextMeshProUGUI titleText;
 
@@ -19,9 +23,16 @@ public class PlayerSetUpMenue : MonoBehaviour
     private bool _inputEnabled;
 
     [SerializeField]private GameObject readyButton;
-    
+   
     [SerializeField]private List<Sprite> backSprites;
     [SerializeField]private List<Sprite> playerSprites;
+    
+    private PlayerConfigManager _manager;
+
+    private void Awake()
+    {
+        _manager = PlayerConfigManager.Instance;
+    }
 
     public void SetPlayerIndex(int pi)
     {
@@ -29,21 +40,16 @@ public class PlayerSetUpMenue : MonoBehaviour
         titleText.SetText("Player " + (_playerIndex +1));
         _ignoreInputTime = Time.time + _ignoreInputTime;
         SetPlayerColor();
+        
     }
 
     private void SetPlayerColor()
     {
-        var color = PlayerConfigManager.Instance.SetPlayerColor(_playerIndex);
+        _color = _manager.SetPlayerColor(_playerIndex);
         
-        playerImage.sprite = playerSprites[color];
+        playerImage.sprite = playerSprites[_color];
         var backImage = GetComponent<Image>();
-        backImage.sprite = backSprites[color];
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
+        backImage.sprite = backSprites[_color];
     }
 
     // Update is called once per frame
@@ -53,12 +59,13 @@ public class PlayerSetUpMenue : MonoBehaviour
         {
             _inputEnabled = true;
         }
+        
     }
 
     public void Ready()
     {
         if(!_inputEnabled) return;
-        PlayerConfigManager.Instance.ReadyPlayer(_playerIndex);
+        _manager.ReadyPlayer(_playerIndex);
         readyButton.SetActive(false);
         readyPanel.SetActive(true);
         
@@ -66,7 +73,11 @@ public class PlayerSetUpMenue : MonoBehaviour
 
     public void Leave()
     {
+        if(!_inputEnabled) return;
         Debug.Log("Leaving");
+        _manager.Leave(_playerIndex,_color);
+        Destroy(Config.gameObject);
+        Destroy(gameObject,0.01f);
     }
     
 }

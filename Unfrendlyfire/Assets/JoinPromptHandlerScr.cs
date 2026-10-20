@@ -16,6 +16,10 @@ public class JoinPromptHandlerScr : MonoBehaviour
             {
                 joinPrompts[i].gameObject.SetActive(false);
             }
+            else
+            {
+                joinPrompts[i].Appear();
+            }
         }
     }
 
@@ -23,8 +27,17 @@ public class JoinPromptHandlerScr : MonoBehaviour
     {
         if (_promptCount < joinPrompts.Count)
         {
-            joinPrompts[_promptCount].Appear();
-            _promptCount ++;
+            if (joinPrompts[_promptCount] != null)
+            {
+                joinPrompts[_promptCount].Appear();
+                _promptCount ++;
+            }
         }
+    }
+
+    public void HideJoinPrompt()
+    {
+        _promptCount--;
+        joinPrompts[_promptCount].Leave();
     }
 }

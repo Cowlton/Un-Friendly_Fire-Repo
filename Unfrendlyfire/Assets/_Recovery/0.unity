@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 845190533}
-  maxPoints: 60
+  maxPoints: 75
   bonusAmount: 5
   radius: 20
   sliderBaise:
@@ -1546,7 +1546,6 @@ MonoBehaviour:
   avater: {fileID: 275500504}
   colorChanger: {fileID: 965895214}
   KeycardBack: {fileID: 898353210}
-  playerNum: 0
 --- !u!1 &286253220
 GameObject:
   m_ObjectHideFlags: 0
@@ -2808,7 +2807,6 @@ MonoBehaviour:
   avater: {fileID: 571218118}
   colorChanger: {fileID: 965895214}
   KeycardBack: {fileID: 775346605}
-  playerNum: 0
 --- !u!1 &572203820
 GameObject:
   m_ObjectHideFlags: 0
@@ -2838,11 +2836,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1480287344}
   - {fileID: 1297429226}
   - {fileID: 1014304934}
   - {fileID: 1363589135}
   - {fileID: 332002053}
+  - {fileID: 1480287344}
   m_Father: {fileID: 1330834103}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2900,7 +2898,7 @@ GameObject:
   - component: {fileID: 598482606}
   - component: {fileID: 598482608}
   m_Layer: 5
-  m_Name: Powers
+  m_Name: CashDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3291,7 +3289,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 7340060177463487954, guid: d221e1834353c604a8bc88228e3445d5, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3786,7 +3784,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: -5940981937513114632, guid: d221e1834353c604a8bc88228e3445d5, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4686,7 +4684,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 6190947470414600184, guid: d221e1834353c604a8bc88228e3445d5, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4821,7 +4819,7 @@ GameObject:
   - component: {fileID: 898353213}
   - component: {fileID: 898353214}
   m_Layer: 5
-  m_Name: KyCardBack
+  m_Name: CashBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4875,7 +4873,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 5187238590243137794, guid: d221e1834353c604a8bc88228e3445d5, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -6138,7 +6136,6 @@ MonoBehaviour:
   avater: {fileID: 1213289640}
   colorChanger: {fileID: 965895214}
   KeycardBack: {fileID: 856181451}
-  playerNum: 0
 --- !u!1 &1261061470
 GameObject:
   m_ObjectHideFlags: 0
@@ -6529,7 +6526,7 @@ MonoBehaviour:
   maneger: {fileID: 845190533}
   pointManagerScr: {fileID: 10089303}
   spotlightSc: {fileID: 1274818580}
-  maxPoints: 2
+  maxPoints: 8
   continueTime: 50
   continueUI: {fileID: 1480287343}
   roundsUI: {fileID: 572203820}
@@ -7498,7 +7495,7 @@ RectTransform:
   m_GameObject: {fileID: 1480287343}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 20, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1503255023}
@@ -7507,8 +7504,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 133, y: -843}
-  m_SizeDelta: {x: -3774, y: 20}
+  m_AnchoredPosition: {x: 253, y: -832}
+  m_SizeDelta: {x: -3685.6, y: 47.285}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1480287346
 MeshRenderer:
@@ -7580,10 +7577,10 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.62352943, g: 0.8588236, b: 0.3372549, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.47214636, g: 0.7075472, b: 0.2770114, a: 1}
-    m_SelectedColor: {r: 0.62352943, g: 0.8588236, b: 0.3372549, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -7635,8 +7632,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -7469610154693406969, guid: d221e1834353c604a8bc88228e3445d5, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: -6546433690750844449, guid: 756ffced837671e4c8b022996cc63292, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -7755,14 +7752,14 @@ RectTransform:
   m_GameObject: {fileID: 1503255022}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1480287344}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 19.76, y: -0.55}
+  m_AnchoredPosition: {x: 47.8, y: -0.7}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1503255024
@@ -7987,7 +7984,7 @@ MonoBehaviour:
   - item: {fileID: 4284959686697817216, guid: 3ecb38d4d650dae4fae67aba7732f5ee, type: 3}
     likelihood: 20
   - item: {fileID: 3597728296858515207, guid: e9434c3b59ebfab4093422d77dfdd10c, type: 3}
-    likelihood: 100
+    likelihood: 50
 --- !u!4 &1545653218
 Transform:
   m_ObjectHideFlags: 0
@@ -9341,7 +9338,6 @@ MonoBehaviour:
   avater: {fileID: 1784739385}
   colorChanger: {fileID: 965895214}
   KeycardBack: {fileID: 690533382}
-  playerNum: 0
 --- !u!1 &1785763302
 GameObject:
   m_ObjectHideFlags: 0
@@ -9792,7 +9788,7 @@ RectTransform:
   m_GameObject: {fileID: 1936305321}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1480287344}
@@ -9822,7 +9818,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Continue A
+  m_text: Continue    A
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10776,11 +10772,11 @@ PrefabInstance:
     - target: {fileID: 1508747220232026787, guid: 2d2eec9b520784942a4a5e790491cfeb, type: 3}
       propertyPath: 'boxSprites.Array.data[5]'
       value: 
-      objectReference: {fileID: -7620442890625347233, guid: d221e1834353c604a8bc88228e3445d5, type: 3}
+      objectReference: {fileID: -6021424277095364919, guid: d221e1834353c604a8bc88228e3445d5, type: 3}
     - target: {fileID: 1508747220232026787, guid: 2d2eec9b520784942a4a5e790491cfeb, type: 3}
       propertyPath: 'boxSprites.Array.data[6]'
       value: 
-      objectReference: {fileID: -6021424277095364919, guid: d221e1834353c604a8bc88228e3445d5, type: 3}
+      objectReference: {fileID: -7620442890625347233, guid: d221e1834353c604a8bc88228e3445d5, type: 3}
     - target: {fileID: 1508747220232026787, guid: 2d2eec9b520784942a4a5e790491cfeb, type: 3}
       propertyPath: 'boxSprites.Array.data[7]'
       value: 

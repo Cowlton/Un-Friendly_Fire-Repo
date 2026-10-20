@@ -586,6 +586,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void ClearInventory()
     {
+        SwordSc.ResetSpikes();
         _itemHandler.ClearInventory();
     }
 
@@ -633,43 +634,43 @@ public class PlayerMovement : MonoBehaviour
     
     public void Death()
     {
-        
-        Instantiate(DethSound, transform.position, Quaternion.identity);
-        spriteRenderer.sprite = GhostSp;
-        _animator.SetBool("IsDead",true);
-        SwordSc.Deactivate();
-        Hand_sc.gameObject.SetActive(false);
-        
-        _itemHandler.hasItem = false;
-
-        SwordSc.ResetSpikes();
-        
-        int num = PlayerNUM;
-        ManagerSK.PlayerDied(num);
-        alive = false;
-        canMove = false;
-        
-
-        var times = 4;
-        for (int i = 0; i < times; i++)
+        if (alive)
         {
-            var ranx = Random.Range(-0.5f, 0.5f);
-            var rany = Random.Range(-0.5f, 0.5f);
-            var pos = new Vector3(transform.position.x + ranx, transform.position.y + rany, transform.position.z);
-            
-            var NewPartical = Instantiate(dethPartical, pos, Quaternion.identity);
-            Part_sk = NewPartical.GetComponent<destroy>();
-            Part_sk.index = coler_index;
-        }
+            Instantiate(DethSound, transform.position, Quaternion.identity);
+            spriteRenderer.sprite = GhostSp;
+            _animator.SetBool("IsDead",true);
+            SwordSc.Deactivate();
+            Hand_sc.gameObject.SetActive(false);
         
-        Respawn();
+            _itemHandler.hasItem = false;
+
+            SwordSc.ResetSpikes();
+        
+            int num = PlayerNUM;
+            ManagerSK.PlayerDied(num);
+            alive = false;
+            canMove = false;
+        
+
+            var times = 4;
+            for (int i = 0; i < times; i++)
+            {
+                var ranx = Random.Range(-0.5f, 0.5f);
+                var rany = Random.Range(-0.5f, 0.5f);
+                var pos = new Vector3(transform.position.x + ranx, transform.position.y + rany, transform.position.z);
+            
+                var NewPartical = Instantiate(dethPartical, pos, Quaternion.identity);
+                Part_sk = NewPartical.GetComponent<destroy>();
+                Part_sk.index = coler_index;
+            }
+        
+            Respawn();
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         
-        if (alive)
-        {
             if (collision.gameObject.CompareTag("Disc"))
             {
                 Disc_sk = collision.gameObject.GetComponent<Disc_Script>();
@@ -683,7 +684,7 @@ public class PlayerMovement : MonoBehaviour
                 Death();
             }
             
-            if (collision.gameObject.CompareTag("Keycard"))
+            if (collision.gameObject.CompareTag("Keycard") && alive)
             {
                 int playerInt = PlayerNUM;
                 ManagerSK.Collect(playerInt);
@@ -699,7 +700,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         Death();
                     }
-                    else
+                    else if (alive)
                     {
                         amountOfForce = 0;
                
@@ -716,7 +717,6 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
             }
-        }
     }
 
     public void Continue()
