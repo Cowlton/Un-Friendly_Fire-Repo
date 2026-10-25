@@ -129,6 +129,7 @@ MonoBehaviour:
   - {fileID: -30963024530480548, guid: ed0f8e9f4c187c94a8051e168cf65613, type: 3}
   - {fileID: -4329614065516925058, guid: ed0f8e9f4c187c94a8051e168cf65613, type: 3}
   - {fileID: 2609503630904768780, guid: ed0f8e9f4c187c94a8051e168cf65613, type: 3}
+  - {fileID: -3199299718693000388, guid: ed0f8e9f4c187c94a8051e168cf65613, type: 3}
   spriteRenderer: {fileID: 3283039629715716644}
 --- !u!1 &7182400317121989729
 GameObject:

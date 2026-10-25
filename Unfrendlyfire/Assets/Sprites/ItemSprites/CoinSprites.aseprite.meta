@@ -338,6 +338,27 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
+  - name: CoinSprites_6
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 124
+      width: 28
+      height: 32
+    spriteID: 62b0801f46a2a4941ad756e3081cbb4b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
   tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
@@ -401,11 +422,20 @@ ScriptedImporter:
       frameIndex: 5
       additiveSortOrder: 0
       cellRect:
+        x: 12
+        y: 11
+        width: 28
+        height: 32
+      spriteId: 3f5c87ac0e30c2643a00519c669a3c99
+    - name: Frame_6
+      frameIndex: 6
+      additiveSortOrder: 0
+      cellRect:
         x: 6
         y: 11
         width: 32
         height: 32
-      spriteId: 3f5c87ac0e30c2643a00519c669a3c99
+      spriteId: 3a30fd3cabee80641bec9d06667c630c
     linkedCells: []
     tileCells: []
     tileSetIndex: 0

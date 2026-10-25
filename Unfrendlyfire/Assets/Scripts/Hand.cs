@@ -25,7 +25,6 @@ public class Hand : MonoBehaviour
         if (leaderObject != null)
         {
             
-            
             if (PlayerSk.movementInput.x >= 0.1f)
             {
                 offset.x = walkRightOffset;

@@ -30,7 +30,12 @@ public class PlayerMovement : MonoBehaviour
     private Maneger ManagerSK;
     private RoundManagerScr _roundManagerScr;
     private ItemHandler _itemHandler;
-    [NonSerialized] public FollowPlayer SwordSc;
+    
+    private FollowPlayer _followScr;
+    
+    private WeaponScr _weaponScr;
+    
+    
     private Hand Hand_sc;
     [NonSerialized] public ItemsToHold_sc PowerHoldSc;
     private Disc_Script Disc_sk;
@@ -139,7 +144,7 @@ public class PlayerMovement : MonoBehaviour
         alive = true;
         
         spriteRenderer.sprite = BaiseColor;
-        SwordSc.Activate();
+        _weaponScr.Activate();
         Hand_sc.gameObject.SetActive(true);
         _animator.SetBool("IsDead",false);
     }
@@ -165,7 +170,12 @@ public class PlayerMovement : MonoBehaviour
   
     public void MakeSpikeBat()
     {
-        SwordSc.BecomeSpikeBat();
+        _weaponScr.BecomeSpikeBat();
+    }
+
+    public void MakeGun()
+    {
+        _weaponScr.BecomeGun();
     }
 
     void Awake()
@@ -185,7 +195,21 @@ public class PlayerMovement : MonoBehaviour
         
         defaltTopSpeed = topspeed;
         defaltMoveSpeed = MoveSpeed;
+        
         var newSowrd = Instantiate(Sword, transform.position, Quaternion.identity);
+        
+        Collider2D playerCollider = GetComponent<Collider2D>();
+        Collider2D weaponCollider = newSowrd.GetComponent<Collider2D>();
+
+        if (playerCollider != null && weaponCollider != null)
+        {
+            Physics2D.IgnoreCollision(playerCollider, weaponCollider, true);
+        }
+        else
+        {
+            Debug.LogError("Player or weapon collider was not found!");
+        }
+        
         newHand = Instantiate(Hand, transform.position, Quaternion.identity);
 
          _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -193,10 +217,19 @@ public class PlayerMovement : MonoBehaviour
         rigidbody2d = GetComponent<Rigidbody2D>();
 
         
-        SwordSc = newSowrd.GetComponent<FollowPlayer>();
+        _followScr = newSowrd.GetComponent<FollowPlayer>();
+       
+        _weaponScr = newSowrd.GetComponent<WeaponScr>();
+        _weaponScr.PlayerNumber = PlayerNUM;
+        
         Hand_sc = newHand.GetComponent<Hand>();
         
-        SwordSc.leaderObject = transform;
+        _weaponScr.PlayerObj = gameObject;
+        _weaponScr.Initialize();
+        
+        _followScr.leaderObject = transform;
+        
+        
         Hand_sc.leaderObject = transform;
         if (manager == null)
         {
@@ -251,17 +284,16 @@ public class PlayerMovement : MonoBehaviour
         
         _spriteRenderer.sprite = BaiseColor;
         
-        var swordSpr = SwordSc.GetComponentInChildren<SpriteRenderer>();
+        var swordSpr = _followScr.GetComponentInChildren<SpriteRenderer>();
         swordSpr.sprite = SwordSpr;
-        
-        SwordSc.colorIndex = coler_index;
-        SwordSc.playerNumber = PlayerNUM;
         
         var handSpr = newHand.GetComponent<SpriteRenderer>();
         handSpr.sprite = HandSprite;
         
         _oobScr = GetComponent<OOB_Handeler>();
         _oobScr.ColorInt = coler_index;
+        
+        _weaponScr.SetColor(coler_index);
     }
 
     private void Input_onActionTriggered(InputAction.CallbackContext context)
@@ -307,7 +339,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (alive && cooldown <= 0)
         {
-            SwordSc.Attack();
+            _weaponScr.Attack();
             cooldown = 0.1;
         }
     }
@@ -523,7 +555,6 @@ public class PlayerMovement : MonoBehaviour
         {
             topspeed = slowTopSpeed;
             MoveSpeed = slowMoveSpeed;
-            
         }
         else
         {
@@ -586,12 +617,22 @@ public class PlayerMovement : MonoBehaviour
 
     public void ClearInventory()
     {
-        SwordSc.ResetSpikes();
         _itemHandler.ClearInventory();
+    }
+    
+    public void ResetBat()
+    {
+        _weaponScr.ResetBat();
     }
 
     void Respawn()
     {
+
+        if (!RuleScr.UseWeaponPowerTimers)
+        {
+            _weaponScr.ResetBat();
+        }
+        
         ClearInventory();
         alive = false;
         Store();
@@ -639,12 +680,15 @@ public class PlayerMovement : MonoBehaviour
             Instantiate(DethSound, transform.position, Quaternion.identity);
             spriteRenderer.sprite = GhostSp;
             _animator.SetBool("IsDead",true);
-            SwordSc.Deactivate();
+            _weaponScr.Deactivate();
             Hand_sc.gameObject.SetActive(false);
         
             _itemHandler.hasItem = false;
 
-            SwordSc.ResetSpikes();
+            if (!RuleScr.UseWeaponPowerTimers)
+            {
+                _weaponScr.ResetBat();
+            }
         
             int num = PlayerNUM;
             ManagerSK.PlayerDied(num);
@@ -670,7 +714,6 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        
             if (collision.gameObject.CompareTag("Disc"))
             {
                 Disc_sk = collision.gameObject.GetComponent<Disc_Script>();
@@ -690,40 +733,43 @@ public class PlayerMovement : MonoBehaviour
                 ManagerSK.Collect(playerInt);
                 Destroy(collision.gameObject);
             }
-            
-            if (collision.gameObject.CompareTag("weapon"))
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("weapon"))
+        {
+            var sk = other.gameObject.GetComponent<SwordSc>();
+            if (sk.atacking)
             {
-                var sk = collision.gameObject.GetComponent<FollowPlayer>();
-                if (sk.Atacking && sk.playerNumber != PlayerNUM)
+                if (sk.isSpikeBat && sk.playerNumber != PlayerNUM)
                 {
-                    if (sk.isSpikeBat && collision.gameObject != Sword)
-                    {
-                        Death();
-                    }
-                    else if (alive)
-                    {
-                        amountOfForce = 0;
+                    Death();
+                }
+                else if (alive)
+                {
+                    amountOfForce = 0;
                
-                        HitForce = sk.HitForce;
+                    HitForce = sk.HitForce;
                 
-                        Player_obj = sk.leaderObject;
+                    Player_obj = sk.leaderTransform;
 
-                        var heading = transform.position - Player_obj.transform.position;
+                    var heading = transform.position - Player_obj.transform.position;
                 
-                        // dist = Vector3.Distance(transform.position, Player_obj.gameObject.transform.position);
-                        amountOfForce = HitForce;
+                    // dist = Vector3.Distance(transform.position, Player_obj.gameObject.transform.position);
+                    amountOfForce = HitForce;
 
-                        MoveBack(heading);
-                    }
+                    MoveBack(heading);
                 }
             }
+        }
     }
 
     public void Continue()
     {
         if (_roundManagerScr.ShowContinue)
         {
-            SwordSc.ResetSpikes();
+            _weaponScr.ResetBat();
             ManagerSK.Continue();
         }
         

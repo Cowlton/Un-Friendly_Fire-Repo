@@ -110,6 +110,8 @@ MonoBehaviour:
     powerNum: 4
   - item: {fileID: 4284959686697817216, guid: 3ecb38d4d650dae4fae67aba7732f5ee, type: 3}
     powerNum: 5
+  - item: {fileID: 4284959686697817216, guid: c104fbf19211b8945b1f7eff976762c0, type: 3}
+    powerNum: 6
   hasItem: 0
   powerNum: 0
   disc: {fileID: 4103828969862996169, guid: 705da0cefffc01b4999881b3640c6961, type: 3}

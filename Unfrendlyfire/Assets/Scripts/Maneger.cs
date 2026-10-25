@@ -5,11 +5,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using UnityEngine;
-using TMPro;
-using Unity.VisualScripting;
+
 using Random = UnityEngine.Random;
-using UnityEngine.UI;
-using Color = UnityEngine.Color;
+
 
 
 public class Maneger : MonoBehaviour
@@ -28,6 +26,7 @@ public class Maneger : MonoBehaviour
     public List<GameObject> PlayerLandMines = new List<GameObject>();
     public List<GameObject> PlayerEyes = new List<GameObject>();
     public List<GameObject> PlayerBats = new List<GameObject>();
+    public List<GameObject> PlayerGuns = new List<GameObject>();
     
     #endregion UI powers
     

@@ -24,6 +24,7 @@ TagManager:
   - EyeMaker
   - SpikeBatMaker
   - BoundsManager
+  - GunMaker
   layers:
   - Default
   - TransparentFX

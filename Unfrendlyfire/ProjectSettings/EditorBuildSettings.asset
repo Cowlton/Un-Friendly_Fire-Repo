@@ -23,5 +23,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Recovery/0.unity
     guid: 5b1758bf8c41c534da417f41138a0860
+  - enabled: 1
+    path: Assets/_Recovery/StartSceen.unity
+    guid: 7197d53c281dbe24f836d398bd130f63
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: a13bfc64002dca64489734368801657b, type: 2}

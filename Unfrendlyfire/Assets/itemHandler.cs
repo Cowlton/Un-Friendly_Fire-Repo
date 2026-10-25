@@ -22,11 +22,14 @@ public class ItemHandler : MonoBehaviour
     private Disc_Script _discSk;
     public GameObject landMine;
     
-    [NonSerialized] public GameObject RockPower;
-    [NonSerialized] public GameObject DiscPower;
-    [NonSerialized] public GameObject LandMinePower;
-    [NonSerialized] public GameObject EyePower;
-    [NonSerialized] public GameObject SpikePower;
+     private GameObject _rockPower;
+     private GameObject _discPower;
+     private GameObject _landMinePower;
+     private GameObject _eyePower;
+     private GameObject _spikePower;
+     private GameObject _gunPower;
+     
+     private WeaponPowerTimeScr _weaponTimerScr;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -39,21 +42,23 @@ public class ItemHandler : MonoBehaviour
 
         if (_managerSc != null)
         {
+            _rockPower = _managerSc.PlayerRocks[(int)_playerNum];
+            _discPower = _managerSc.PlayerDiscs[(int)_playerNum];
+            _landMinePower = _managerSc.PlayerLandMines[(int)_playerNum];
+            _eyePower = _managerSc.PlayerEyes[(int)_playerNum];
+            _spikePower = _managerSc.PlayerBats[(int)_playerNum];
+            _gunPower = _managerSc.PlayerGuns[(int)_playerNum];
             
-            RockPower = _managerSc.PlayerRocks[(int)_playerNum];
-            DiscPower = _managerSc.PlayerDiscs[(int)_playerNum];
-            LandMinePower = _managerSc.PlayerLandMines[(int)_playerNum];
-            EyePower = _managerSc.PlayerEyes[(int)_playerNum];
-            SpikePower = _managerSc.PlayerBats[(int)_playerNum];
-        
-        
-            RockPower.SetActive(false);
-            DiscPower.SetActive(false);
-            LandMinePower.SetActive(false);
-            EyePower.SetActive(false);
-            SpikePower.SetActive(false);
+            _rockPower.SetActive(false);
+            _discPower.SetActive(false);
+            _landMinePower.SetActive(false);
+            _eyePower.SetActive(false);
+            _spikePower.SetActive(false);
+            _gunPower.SetActive(false);
         }
         
+        _weaponTimerScr = GameObject.Find("Gun/SpikeTime").GetComponent<WeaponPowerTimeScr>();
+
     }
 
     public void UsePower()
@@ -73,6 +78,7 @@ public class ItemHandler : MonoBehaviour
                     case 3: UseLandMine(); break;
                     case 4: UseEye(); break;
                     case 5: UseSpikes(); break;
+                    case 6: UseGun(); break;
                 }
             }
         }
@@ -84,7 +90,7 @@ public class ItemHandler : MonoBehaviour
     
     void UseRock()
     {
-        RockPower.SetActive(false);
+        _rockPower.SetActive(false);
         
         _managerSc.SpawnBigRock();
         Debug.Log("Used Rock");
@@ -92,7 +98,7 @@ public class ItemHandler : MonoBehaviour
     
     void UseDisk()
     {
-        DiscPower.SetActive(false);
+        _discPower.SetActive(false);
         
         var newObject = Instantiate(disc, transform.position, Quaternion.identity);
         _discSk = newObject.GetComponent<Disc_Script>();
@@ -102,7 +108,7 @@ public class ItemHandler : MonoBehaviour
     
     void UseLandMine()
     {
-        LandMinePower.SetActive(false);
+        _landMinePower.SetActive(false);
         
         Instantiate(landMine, transform.position, Quaternion.identity);
         Debug.Log("Used Land Mine");
@@ -110,7 +116,7 @@ public class ItemHandler : MonoBehaviour
     
     void UseEye()
     {
-        EyePower.SetActive(false);
+        _eyePower.SetActive(false);
         
         List<Transform> rocks = _managerSc.ROCKS;
         for (int i = 0; i < rocks.Count; i++)
@@ -129,16 +135,37 @@ public class ItemHandler : MonoBehaviour
             Player.MakeSpikeBat();
         }
         
-        SpikePower.SetActive(false);
+        _spikePower.SetActive(false);
+        SetTimer(0);
+    }
+
+    void UseGun()
+    {
+        List<PlayerMovement> players = _managerSc.PlayerSc;
+        foreach (var player in players)
+        {
+            player.MakeGun();
+        }
+        _gunPower.SetActive(false);
+        SetTimer(1);
+    }
+
+    void SetTimer(int spriteIndex)
+    {
+        if (RuleScr.UseWeaponPowerTimers)
+        {
+           _weaponTimerScr.SetTimer(spriteIndex);
+        }
     }
 
     public void ClearInventory()
     {
-        RockPower.SetActive(false);
-        DiscPower.SetActive(false);
-        LandMinePower.SetActive(false);
-        EyePower.SetActive(false);
-        SpikePower.SetActive(false);
+        _rockPower.SetActive(false);
+        _discPower.SetActive(false);
+        _landMinePower.SetActive(false);
+        _eyePower.SetActive(false);
+        _spikePower.SetActive(false);
+        _gunPower.SetActive(false);
         
         _powerHoldSc.SetSprite(0);//null
     }
@@ -173,19 +200,22 @@ public class ItemHandler : MonoBehaviour
         switch (power)
         {
             case 1:
-                RockPower.SetActive(true);
+                _rockPower.SetActive(true);
                 break;
             case 2:
-                DiscPower.SetActive(true);
+                _discPower.SetActive(true);
                 break;
             case 3:
-                LandMinePower.SetActive(true);
+                _landMinePower.SetActive(true);
                 break;
             case 4:
-                EyePower.SetActive(true);
+                _eyePower.SetActive(true);
                 break;
             case 5:
-                SpikePower.SetActive(true);
+                _spikePower.SetActive(true);
+                break;
+            case 6:
+                _gunPower.SetActive(true);
                 break;
             
         }

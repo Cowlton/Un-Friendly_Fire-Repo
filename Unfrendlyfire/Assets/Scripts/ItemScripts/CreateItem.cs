@@ -37,9 +37,7 @@ public class CreateItem : MonoBehaviour
         sprite = objectToSpawn.GetComponent<SpriteRenderer>().sprite;
         
     }
-
     
-
     void Update()
     {
         //temporary

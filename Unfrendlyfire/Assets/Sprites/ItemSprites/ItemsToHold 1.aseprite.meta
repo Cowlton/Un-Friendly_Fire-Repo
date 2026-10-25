@@ -283,11 +283,32 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 53
-      y: 34
+      x: 52
+      y: 67
       width: 34
       height: 37
     spriteID: 27e301d292b281546a97ef1721eeb80d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: ItemsToHold 1_5
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 52
+      y: 37
+      width: 41
+      height: 27
+    spriteID: 07f9783fe86d73047bc8f0f2b0694efa
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -355,6 +376,15 @@ ScriptedImporter:
         width: 32
         height: 25
       spriteId: 2684e76fdfbd613418980f71cb6322ef
+    - name: Frame_5
+      frameIndex: 5
+      additiveSortOrder: 0
+      cellRect:
+        x: 22
+        y: 55
+        width: 40
+        height: 24
+      spriteId: f308b26e33b34d14dbfec9d424cb50f9
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
