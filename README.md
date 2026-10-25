@@ -4,6 +4,14 @@ My crazy multiplayer game
 This is a chaos multiplayer party game I am developing where you hit your friends with bats, get smushed by boulders, collect cash and run amuck.
 It is in its early stages so there is no starting UI You just get straight into playing
 
+You can download the latest version on itch (be warned it's kind of broken).
+
+How to play with Join Menu. 
+1: Press any button to join. 
+2: click "Ready" on all players when you are ready to play (you can play with one player just for test purposes).
+3: Run around and test the game.
+
+
 All the code in the assets folder except the stuff in the TextMeshPro folder is stuff I have written or added. I have programmed around 48 hours in this project. Unfortunately,
 so, my project doesn't completely stop working. I have to have a bunch of unity code in the repo.
 
