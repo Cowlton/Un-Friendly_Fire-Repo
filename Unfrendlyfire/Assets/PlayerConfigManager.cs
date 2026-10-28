@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class PlayerConfigManager : MonoBehaviour
 {
-    public List<PlayerConfig> _playerConfigs;
+    public List<PlayerConfig> PlayerConfigs;
 
     [SerializeField]
     private int maxPlayers = 4;
@@ -29,7 +29,7 @@ public class PlayerConfigManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(Instance);
-            _playerConfigs = new List<PlayerConfig>();
+            PlayerConfigs = new List<PlayerConfig>();
         }
     }
 
@@ -38,7 +38,7 @@ public class PlayerConfigManager : MonoBehaviour
         var color = 0;
         var randNum = Random.Range(0,colors.Count);
         color = colors[randNum]; // I use a list of indexes so that there are not 2 players of the same color
-        _playerConfigs[index].ColorIndex = color;
+        PlayerConfigs[index].ColorIndex = color;
         colors.Remove(color);
         return color;
     }
@@ -46,19 +46,24 @@ public class PlayerConfigManager : MonoBehaviour
     public void PlayerJoin(PlayerInput pi)
     {
         Debug.Log($"PlayerJoin {pi}");
-        if (_playerConfigs.All(p => p.PlayerIndex != pi.playerIndex))
+        if (PlayerConfigs.All(p => p.PlayerIndex != pi.playerIndex))
         {
             Debug.Log($"New Player ID: {pi.playerIndex}");
             pi.transform.SetParent(transform);
-            _playerConfigs.Add(new PlayerConfig(pi));
+            PlayerConfigs.Add(new PlayerConfig(pi));
         }
-        promptHandler.ShowJoinPrompt();
+
+        if (promptHandler != null)
+        {
+            promptHandler.ShowJoinPrompt();
+        }
+        
     }
 
     public void ReadyPlayer(int index)
     {
-        _playerConfigs[index].IsReady = true;
-        if (_playerConfigs.All(p => p.IsReady == true))
+        PlayerConfigs[index].IsReady = true;
+        if (PlayerConfigs.All(p => p.IsReady == true))
         {
             StartGame(); // Change to a button press later
         }
@@ -66,13 +71,13 @@ public class PlayerConfigManager : MonoBehaviour
 
     public void Leave(int index,int colorIndex)
     {
-        if (_playerConfigs.Count >= index)
+        if (PlayerConfigs.Count >= index)
         {
-            _playerConfigs.RemoveAt(index);
+            PlayerConfigs.RemoveAt(index);
         }
         else
         {
-            Debug.Log($"Player ID: {_playerConfigs[index].PlayerIndex} is outside of range");
+            Debug.Log($"Player ID: {PlayerConfigs[index].PlayerIndex} is outside of range");
         }
         promptHandler.HideJoinPrompt();
         colors.Add(colorIndex);
@@ -80,12 +85,12 @@ public class PlayerConfigManager : MonoBehaviour
     
     public void StartGame()
     {
-        SceneManager.LoadScene("0");
+        SceneManager.LoadScene("RuleSetup");
     }
     
     public List<PlayerConfig> GetPlayerConfigs()
     {
-        return _playerConfigs;
+        return PlayerConfigs;
     }
     
 }

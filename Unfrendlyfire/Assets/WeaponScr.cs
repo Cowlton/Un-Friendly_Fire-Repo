@@ -24,6 +24,12 @@ public class WeaponScr : MonoBehaviour
     void Start()
     {
         gameObject.SetActive(true);
+        
+        // Make sure Attack Only effects other players
+        Collider2D weaponCollider = GetComponent<Collider2D>();
+        Collider2D playerCollider = PlayerObj.GetComponent<Collider2D>();
+
+        Physics2D.IgnoreCollision(weaponCollider, playerCollider, true);
     }
 
     public void Initialize()
@@ -61,6 +67,11 @@ public class WeaponScr : MonoBehaviour
     public void Activate()
     {
         gameObject.SetActive(true);
+        
+        Collider2D weaponCollider = GetComponent<Collider2D>();
+        Collider2D playerCollider = PlayerObj.GetComponent<Collider2D>();
+
+        Physics2D.IgnoreCollision(weaponCollider, playerCollider, true);
     }
     
     public void ResetBat()

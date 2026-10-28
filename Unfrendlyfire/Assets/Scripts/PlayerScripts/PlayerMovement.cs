@@ -643,7 +643,7 @@ public class PlayerMovement : MonoBehaviour
     public void Spawn(Transform Xmin, Transform Xmax, Transform Ymin, Transform Ymax )
     {
         timeToWaite = 100;
-        var newPos = dethSpot.transform.position;
+        var newPos = transform.position;
         newPos.x = Random.Range(Xmin.position.x, Xmax.position.x);
         newPos.y = Random.Range(Ymin.position.y, Ymax.position.y);
         transform.position = new Vector3(newPos.x,newPos.y,transform.position.z);

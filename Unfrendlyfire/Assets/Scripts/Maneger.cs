@@ -19,16 +19,7 @@ public class Maneger : MonoBehaviour
     
     #region player UI
     
-    #region UI powers
-    
-    public List<GameObject> PlayerRocks = new List<GameObject>();
-    public List<GameObject> PlayerDiscs = new List<GameObject>();
-    public List<GameObject> PlayerLandMines = new List<GameObject>();
-    public List<GameObject> PlayerEyes = new List<GameObject>();
-    public List<GameObject> PlayerBats = new List<GameObject>();
-    public List<GameObject> PlayerGuns = new List<GameObject>();
-    
-    #endregion UI powers
+    public List<ItemDisplayScr> powerUIScr = new();
     
     public GameObject KeyCard;
  

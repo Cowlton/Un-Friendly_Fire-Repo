@@ -8,7 +8,7 @@ public class SwordSc : IWeapon
 
     [NonSerialized] public FollowPlayer followScr;
     
-    public bool isSpikeBat = false;
+    public bool isSpikeBat;
     public SpriteRenderer spikes;
     public GameObject slapSound;
     
@@ -54,6 +54,8 @@ public class SwordSc : IWeapon
     
     public int playerNumber;
 
+    public float trailWaitTime;
+    private float _initialTrailWaitTime;
    
     void Start()
     {
@@ -68,28 +70,26 @@ public class SwordSc : IWeapon
         _spriteRenderer = sprite.GetComponent<SpriteRenderer>();
         _spriteRenderer.sprite = _colorCon.sowrdSprites[colorIndex];
         
+        _initialTrailWaitTime =  trailWaitTime;
         
-        // Make sure Attack Only effects other players
-        Collider2D weaponCollider = GetComponent<Collider2D>();
-        Collider2D playerCollider = leaderTransform.GetComponent<Collider2D>();
-
-        Physics2D.IgnoreCollision(weaponCollider, playerCollider, true);
     }
     
     public override void Attack()
     {
-        _pauseTime = 2;
-        atacking = true;
-        if (RotationOffset == 0)
+        if (!atacking)
         {
-            RotationOffset = -90;
-        }else if (RotationOffset < -80)
-        {
-            RotationOffset = 0;
+            _pauseTime = 2;
+            atacking = true;
+            if (RotationOffset == 0)
+            {
+                RotationOffset = -90;
+            }else if (RotationOffset < -80)
+            {
+                RotationOffset = 0;
+            }
+            followScr.rotationOffset = RotationOffset;
+            Debug.Log("Attacked");
         }
-        followScr.rotationOffset = RotationOffset;
-        Debug.Log("Attacked");
-        
     }
     void HitRock(GameObject collision)
     {
@@ -127,12 +127,20 @@ public class SwordSc : IWeapon
     {
         if (atacking)
         {
+            if (trailWaitTime <= 0)
+            {
+                var newTrail = Instantiate(SowrdTrail,transform.position,transform.rotation);
+                newTrail.GetComponent<SpriteRenderer>().sprite = _spriteRenderer.sprite;
+                trailWaitTime = _initialTrailWaitTime;
+            }
+            trailWaitTime -= 1 * Time.deltaTime;
            HitForce = _stHitForce;
         }
         if (_pauseTime <= 1)
         {
             atacking = false;
             HitForce = 0;
+            trailWaitTime = 0;
         }
         if (_pauseTime > 0)
         {

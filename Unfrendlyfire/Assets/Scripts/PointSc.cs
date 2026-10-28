@@ -9,9 +9,11 @@ public class PointSc : MonoBehaviour
 {
     public Maneger manager;
 
-    public float maxPoints = 30;
+    public int maxPoints = 30;
     public int bonusAmount = 5;
-    public float radius = 5f; 
+    private float _radius = 5f; 
+    
+    private bool _grantBonus;
     
     public Sprite[] sliderBaise;
     public Sprite[] sliderFill;
@@ -33,10 +35,16 @@ public class PointSc : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        bonusAmount = RuleScr.BonusAmount;
+        maxPoints = RuleScr.WinAmount;
+        _grantBonus = RuleScr.GrantBonus;
+        
         foreach (GameObject obj in playerSliders)
         {
             obj.SetActive(false);
         }
+
+        _radius = bonusAmount * 5f;
     }
 
   
@@ -67,7 +75,7 @@ public class PointSc : MonoBehaviour
             await Task.Delay(200);
         }
 
-        if (bonus)
+        if (bonus && _grantBonus)
         {
             Bonus(player);
         }
@@ -84,8 +92,8 @@ public class PointSc : MonoBehaviour
             {
                 
                 float angle = i * Mathf.PI * 2f / bonusAmount;   // Even angle spacing
-                float x = Mathf.Cos(angle) * radius;
-                float y = Mathf.Sin(angle) * radius;
+                float x = Mathf.Cos(angle) * _radius;
+                float y = Mathf.Sin(angle) * _radius;
 
                 Vector3 pos = new Vector3(x, y, 0f) + PlayerCash[player].transform.position;
                 

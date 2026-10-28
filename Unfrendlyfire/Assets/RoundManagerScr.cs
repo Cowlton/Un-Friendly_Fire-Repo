@@ -32,6 +32,7 @@ public class RoundManagerScr : MonoBehaviour
 
     void Start()
     {
+        maxPoints = RuleScr.WinRoundAmount;
         roundsUI.SetActive(false);
     }
     
@@ -78,16 +79,16 @@ public class RoundManagerScr : MonoBehaviour
         UISpriteChanger scr = maneger.playerDesplayScr[playerInt];
         scr.Won();
         spotlightSc.SetWinnerSpotlight(players[playerInt].transform);
-        FadeBacroundUiIn();
+        FadeBackgroundUiIn();
     }
     
-    public void FadeBacroundUiIn()
+    public void FadeBackgroundUiIn()
     {
         var image = backgroundUI.GetComponent<Image>();
         StartCoroutine(Fade(0f, 1f, image,fadeInDuration));
     }
 
-    public void FadeBacroundUiOut()
+    public void FadeBackgroundUiOut()
     {
         var image = backgroundUI.GetComponent<Image>();
         StartCoroutine(Fade(1f, 0f,  image,fadeOutDuration));
@@ -112,7 +113,6 @@ public class RoundManagerScr : MonoBehaviour
             _roundEnded = false;
             _canCheckContinue = false;
             maneger.roundEnded = false;
-            maneger.SpawnPlayers();
         }
     }
     
@@ -123,12 +123,13 @@ public class RoundManagerScr : MonoBehaviour
             pointManagerScr.Reset();
             GameOver = false;
         }
-        FadeBacroundUiOut();
+        FadeBackgroundUiOut();
         var players = maneger.Player;
         for (int i = 0; i < players.Count; i++)
         {
             maneger.PlayerSc[i].slowMo = false;
         }
+        maneger.SpawnPlayers();
     }
     
     public void ClearScores(int playerWiner)

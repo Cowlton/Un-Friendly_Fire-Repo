@@ -5,7 +5,16 @@ using Random = UnityEngine.Random;
 
 public class ItemManagerSc : MonoBehaviour
 {
-    public List<SpawnItem> items = new List<SpawnItem>();
+    public List<SpawnItem> items = new();
+
+    public void Start()
+    {
+        for (int i = 0; i < items.Count-1; i++)
+        {
+            items[i].likelihood = RuleScr.Frequencies[i];
+        }
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public GameObject GetObject()
     {

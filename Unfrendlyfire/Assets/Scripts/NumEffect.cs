@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,20 +8,20 @@ using System.Threading.Tasks;
 public class NumEffect : MonoBehaviour
 {
     public float SizeDiff;
-    private float _value = 0;
+    [NonSerialized]public float Value;
     public TextMeshProUGUI text;
     public async Task Add()
     {
-        _value += 1;
-        text.text = _value.ToString();
+        Value += 1;
+        text.text = Value.ToString();
         text.fontSize += SizeDiff;
         await Task.Delay(500);
         text.fontSize -= SizeDiff;
     }
     public async Task Add(int delay)
     {
-        _value += 1;
-        text.text = _value.ToString();
+        Value += 1;
+        text.text = Value.ToString();
         text.fontSize += SizeDiff;
         await Task.Delay(delay);
         text.fontSize -= SizeDiff;
@@ -28,16 +29,16 @@ public class NumEffect : MonoBehaviour
 
     public async Task Remove()
     {
-        _value -= 1;
-        text.text = _value.ToString();
+        Value -= 1;
+        text.text = Value.ToString();
         text.fontSize += SizeDiff;
         await Task.Delay(100);
         text.fontSize -= SizeDiff;
     }
     public async Task Remove(int delay)
     {
-        _value -= 1;
-        text.text = _value.ToString();
+        Value -= 1;
+        text.text = Value.ToString();
         text.fontSize += SizeDiff;
         await Task.Delay(delay);
         text.fontSize -= SizeDiff;
@@ -45,7 +46,7 @@ public class NumEffect : MonoBehaviour
 
     public void Reset()
     {
-        _value = 0;
+        Value = 0;
         text.text = "";
     }
 }

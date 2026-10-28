@@ -29,6 +29,11 @@ public class WeaponPowerTimeScr : MonoBehaviour
                 (int)(timeRemaining * 100) % 100);
             TimerEnd();
         }
+
+        if (manager.roundEnded && timeRemaining > 0)
+        {
+            TimerEnd();
+        }
     }
 
     public void SetTimer(int spriteIndex)
@@ -46,6 +51,7 @@ public class WeaponPowerTimeScr : MonoBehaviour
             scr.ResetBat();
         }
         animator.SetBool("Out", true);
+        timeRemaining = 0;
     }
 
     public void Hide()
